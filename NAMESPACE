@@ -5,7 +5,8 @@ importFrom("dvi",
            "readDVI")
 
 export("TeXengine", "registerEngine",
-
+       "TeXstate", "TeXget", "TeXset",
+       
        "FontLibrary",
        
        "LaTeXpackage", "registerPackage",

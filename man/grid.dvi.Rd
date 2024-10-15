@@ -16,6 +16,7 @@ dviGrob(dvi, \dots)
         default.units = "npc",
         hjust="centre", vjust="centre",
         engine=NULL,
+        fontLib=NULL,
         packages=NULL,
         \dots,
         name="DVIgrob",
@@ -34,6 +35,8 @@ grid.dvi(\dots)
     \code{x}/\code{y} location.}
   \item{engine}{The TeX engine that should be used to render the DVI
     file (see Details).}
+  \item{fontLib}{The font libraary the should be used to query fonts
+    and glyphs.}
   \item{packages}{The LaTeX packages to be used in rendering the DVI.}
   \item{name}{Character value giving name for the grob.}
   \item{gp}{Graphical parameter settings.}

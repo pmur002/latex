@@ -15,6 +15,7 @@ dviGrob.DVI <- function(dvi,
                         default.units="npc",
                         hjust="centre", vjust="centre",
                         engine=NULL,
+                        fontLib=NULL,
                         packages=NULL,
                         ...,
                         name="DVIgrob",
@@ -27,7 +28,7 @@ dviGrob.DVI <- function(dvi,
     eng <- resolveEngine(dvi, engine)
     pkgs <- resolvePackages(packages)
     gTree(dvi=dvi, x=x, y=y, hjust=hjust, vjust=vjust,
-          engine=eng, packages=pkgs,
+          engine=eng, fontLib=fontLib, packages=pkgs,
           gp=gp, name=name, vp=vp,
           cl="DVIgrob")
 }

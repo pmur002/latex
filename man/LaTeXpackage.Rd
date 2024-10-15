@@ -2,7 +2,7 @@
 \alias{LaTeXpackage}
 \alias{registerPackage}
 \title{
-  Define a LaTeX package.
+  Define a LaTeX Package.
 }
 \description{
   Define and register a LaTeX package for authoring, typesetting,

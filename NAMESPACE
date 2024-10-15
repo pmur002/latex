@@ -6,6 +6,8 @@ importFrom("dvi",
 
 export("TeXengine", "registerEngine",
 
+       "FontLibrary",
+       
        "LaTeXpackage", "registerPackage",
        
        "grid.dvi", "dviGrob")

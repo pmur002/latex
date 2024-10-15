@@ -2,7 +2,7 @@
 \alias{TeXengine}
 \alias{registerEngine}
 \title{
-  Define a TeX engine.
+  Define a TeX Engine.
 }
 \description{
   Define and register a TeX engine for authoring, typesetting,

@@ -2,22 +2,22 @@
 library(dvi)
 library(latex)
 
-dvi <- readDVI(system.file("DVI", "test-xe.xdv", package="dvi"))
+## XeTeX engine is supplied (if available)
+dviXeTeX <- readDVI(system.file("DVI", "test-xetex.xdv", package="dvi"))
 
 ## Font file paths based on my machine
 if (Sys.getenv("USER") == "pmur002") {
     
-    ## Fall back to dummy engine AND to dummy fontLib
+    ## Fall back to dummy fontLib
     ## (glyph positioning is compromised)
-    tools::assertWarning(grid.dvi(dvi))
+    tools::assertWarning(grid.dvi(dviXeTeX))
 
     if (require("ttx")) {
-        ## Just fall back to dummy engine
-        ## (glyph positioning should be fine)
+        ## Glyph positioning should be fine
         TTX <- FontLibrary(ttx::ttxGlyphWidth,
                            ttx::ttxGlyphHeight,
                            ttx::ttxGlyphBounds)
-        tools::assertWarning(grid.dvi(dvi, fontLib=TTX))
+        grid.dvi(dviXeTeX, fontLib=TTX)
     }
     
 }

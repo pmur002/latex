@@ -63,11 +63,4 @@ resolveEngine <- function(dvi, engine) {
     }
 }
 
-################################################################################
-## Dummy engine
 
-## Define (and register) dummy TeX engine
-dummyEngine <- TeXengine(name="dummy",
-                         command=NULL)
-
-registerEngine(dummyEngine)

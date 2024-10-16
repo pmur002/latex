@@ -68,7 +68,7 @@ grid.dvi(\dots)
   \code{\link{LaTeXpackage}}.
 }
 \examples{
-dvi <- dvi::readDVI(system.file("DVI", "test-xe.xdv", package="dvi"))
+dvi <- dvi::readDVI(system.file("DVI", "test-xetex.xdv", package="dvi"))
 \dontrun{
 % Requires TeX installation
 grid.dvi(dvi)

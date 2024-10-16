@@ -17,6 +17,7 @@ Type 'q()' to quit R.
 
 > 
 > library(latex)
+XeTeX:  3.14159265-2.6-0.999991
 > 
 > state <- TeXstate()
 > 
@@ -30,4 +31,4 @@ NULL
 > 
 > proc.time()
    user  system elapsed 
-  0.098   0.015   0.110 
+  0.098   0.022   0.116 

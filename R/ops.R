@@ -145,9 +145,9 @@ op_w <- function(op, state) {
     }
     dir <- TeXget("dir", state)
     if (dir == 0) {
-        TeXset("h", TeXget("h") + TeXget("w", state), state)
+        TeXset("h", TeXget("h", state) + TeXget("w", state), state)
     } else {
-        TeXset("v", TeXget("v") + TeXget("w", state), state)
+        TeXset("v", TeXget("v", state) + TeXget("w", state), state)
     }
 }
 
@@ -165,9 +165,9 @@ op_x <- function(op, state) {
     }
     dir <- TeXget("dir", state)
     if (dir == 0) {
-        TeXset("h", TeXget("h") + TeXget("x", state), state)
+        TeXset("h", TeXget("h", state) + TeXget("x", state), state)
     } else {
-        TeXset("v", TeXget("v") + TeXget("x", state), state)
+        TeXset("v", TeXget("v", state) + TeXget("x", state), state)
     }
 }
 
@@ -201,9 +201,9 @@ op_y <- function(op, state) {
     }
     dir <- TeXget("dir", state)
     if (dir == 0) {
-        TeXset("v", TeXget("v") + TeXget("y", state), state)
+        TeXset("v", TeXget("v", state) + TeXget("y", state), state)
     } else {
-        TeXset("h", TeXget("h") - TeXget("y", state), state)
+        TeXset("h", TeXget("h", state) - TeXget("y", state), state)
     }
 }
 
@@ -221,9 +221,9 @@ op_z <- function(op, state) {
     }
     dir <- TeXget("dir", state)
     if (dir == 0) {
-        TeXset("v", TeXget("v") + TeXget("z", state), state)
+        TeXset("v", TeXget("v", state) + TeXget("z", state), state)
     } else {
-        TeXset("h", TeXget("h") - TeXget("z", state), state)
+        TeXset("h", TeXget("h", state) - TeXget("z", state), state)
     }
 }
 

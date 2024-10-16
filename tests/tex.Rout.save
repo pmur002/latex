@@ -16,8 +16,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 Type 'q()' to quit R.
 
 > 
-> library(latex)
-XeTeX:  3.14159265-2.6-0.999991
+> suppressPackageStartupMessages(library(latex))
 > 
 > state <- TeXstate()
 > 
@@ -31,4 +30,4 @@ NULL
 > 
 > proc.time()
    user  system elapsed 
-  0.098   0.022   0.116 
+  0.110   0.014   0.120 

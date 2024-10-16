@@ -1,4 +1,7 @@
 
+importFrom("utils",
+           "packageVersion")
+
 importFrom("grDevices",
            "glyphAnchor",
            "glyphFont",
@@ -22,7 +25,13 @@ export("TeXengine", "registerEngine",
        
        "LaTeXpackage", "registerPackage",
        
-       "grid.dvi", "dviGrob")
+       "grid.dvi", "dviGrob",
+
+       "grid.latex", "latexGrob", "author", "typeset")
+
+S3method("typeset", "TeXdocument")
+S3method("typeset", "TeXfile")
+S3method("typeset", "character")
 
 S3method("dviGrob", "DVI")
 

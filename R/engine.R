@@ -63,4 +63,23 @@ resolveEngine <- function(dvi, engine) {
     }
 }
 
+## Get TeXengine from engine name (or TeX engine)
+getEngine <- function(engine) {
+    UseMethod("getEngine")
+}
 
+getEngine.TeXengine <- function(engine) {
+    engine
+}
+
+getEngine.character <- function(engine) {
+    if (length(engine) != 1)
+        stop("Can only get exactly one engine")
+    engine <- tolower(engine)
+    engines <- get("engines")
+    if (engine %in% names(engines)) {
+        engines[[engine]]
+    } else {
+        stop(paste0("Engine ", engine, " not found"))
+    }
+}

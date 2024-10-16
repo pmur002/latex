@@ -1,5 +1,5 @@
 
-library(latex)
+suppressPackageStartupMessages(library(latex))
 
 state <- TeXstate()
 

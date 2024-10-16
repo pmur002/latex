@@ -16,7 +16,7 @@ metricUnits <- function(x) {
     attr(x, "unitsPerEm")
 }
 
-TeXglyphWidth <- function(index, file, size, fontLib) {
+TeXglyphWidth <- function(index, file, size, fontLib, pre) {
     width <- fontLib$glyphWidth(index, file)
     unitsPerEm <- metricUnits(width)
     ## round() to get whole number metrix (at 1000 scale)
@@ -24,10 +24,10 @@ TeXglyphWidth <- function(index, file, size, fontLib) {
     cex <- 1
     widthPts <- floor(size + .5)*cex*
         (round(width/(unitsPerEm/1000)))/1000
-    toTeX(unit(widthPts, "bigpts"))
+    toTeX(unit(widthPts, "bigpts"), pre)
 }
 
-TeXglyphHeight <- function(index, file, size, fontLib) {
+TeXglyphHeight <- function(index, file, size, fontLib, pre) {
     height <- fontLib$glyphHeight(index, file)
     unitsPerEm <- metricUnits(height)
     ## round() to get whole number metrix (at 1000 scale)
@@ -35,10 +35,10 @@ TeXglyphHeight <- function(index, file, size, fontLib) {
     cex <- 1
     heightPts <- floor(size + .5)*cex*
         (round(height/(unitsPerEm/1000)))/1000
-    toTeX(unit(heightPts, "bigpts"))
+    toTeX(unit(heightPts, "bigpts"), pre)
 }
 
-TeXglyphBounds <- function(index, file, size, fontLib) {
+TeXglyphBounds <- function(index, file, size, fontLib, pre) {
     bounds <- fontLib$glyphBounds(index, file)
     unitsPerEm <- metricUnits(bounds)
     ## round() to get whole number metrix (at 1000 scale)
@@ -46,5 +46,5 @@ TeXglyphBounds <- function(index, file, size, fontLib) {
     cex <- 1
     boundsPts <- floor(size + .5)*cex*
         (round(bounds/(unitsPerEm/1000)))/1000
-    toTeX(unit(boundsPts, "bigpts"))
+    toTeX(unit(boundsPts, "bigpts"), pre)
 }

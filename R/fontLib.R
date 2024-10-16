@@ -12,6 +12,16 @@ FontLibrary <- function(glyphWidth,
     fontLib
 }
 
+resolveFontLib <- function(lib) {
+    if (is.null(lib)) {
+        warning(paste("No Font Library specified;",
+                      "falling back to dummy Font Library",
+                      "(positioning of glyphs will be compromised)"))
+        lib <- dummyFontLib
+    }
+    lib
+}
+
 metricUnits <- function(x) {
     attr(x, "unitsPerEm")
 }
@@ -48,3 +58,22 @@ TeXglyphBounds <- function(index, file, size, fontLib, pre) {
         (round(bounds/(unitsPerEm/1000)))/1000
     toTeX(unit(boundsPts, "bigpts"), pre)
 }
+
+################################################################################
+## Dummy Font Library
+
+dummyWidth <- function(index, file) {
+    w <- 500
+    attr(w, "unitsPerEm") <- 1000
+    w
+}
+
+dummyBounds <- function(index, file) {
+    bbox <- c(0, 0, 500, 1000)
+    attr(bbox, "unitsPerEm") <- 1000
+    bbox
+}
+
+dummyFontLib <- FontLibrary(glyphWidth=dummyWidth,
+                            glyphHeight=NULL,
+                            glyphBounds=dummyBounds)

@@ -6,5 +6,5 @@ Authors@R: person("Paul", "Murrell", email = "paul@stat.auckland.ac.nz",
                   role = c("aut", "cre"))
 Maintainer: Paul Murrell <paul@stat.auckland.ac.nz>
 Description: Functions to author, typeset, and render LaTeX documents from R.
-Imports: grid, dvi
+Imports: grid, hexView, dvi
 License: GPL-3

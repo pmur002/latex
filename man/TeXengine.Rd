@@ -12,7 +12,7 @@
 TeXengine(name,
           command,
           options=NULL,
-          buildGrobs,
+          xFontDef,
           preamble="",
           dviSuffix=".dvi")
 registerEngine(engine)
@@ -22,8 +22,8 @@ registerEngine(engine)
   \item{command}{Command used to typeset LaTeX documents and produce DVI
     files.}
   \item{options}{Character vector of options to \code{command}.}
-  \item{buildGrobs}{Function to generate grob tree from DVI object for
-    rendering.}
+  \item{xFontDef}{Function to generate a font definition from a DVI
+    x_font_def operation.}
   \item{preamble}{Preamble for authoring LaTeX documents.}
   \item{dviSuffix}{Suffix for files produced by typesetting LaTeX
     documents.}

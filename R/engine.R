@@ -5,14 +5,14 @@ set("engines", list())
 TeXengine <- function(name,
                       command,
                       options=NULL,
-                      buildGrobs,
+                      xFontDef,
                       preamble="",
                       dviSuffix=".dvi") {
     engine <- list(name=tolower(name),
                    command=command,
                    options=options,
                    preamble=preamble,
-                   buildGrobs=buildGrobs,
+                   xFontDef=xFontDef,
                    dviSuffix=dviSuffix)
     class(engine) <- "TeXengine"
     engine
@@ -68,15 +68,14 @@ resolveEngine <- function(dvi, engine) {
 ################################################################################
 ## Dummy engine
 
-## Do nothing for now
-dummyGrobs <- function(x) {
-    textGrob("I tried rendering with the dummy engine\nand all I got was this lousy text.",
-             x$x, x$y, hjust=x$hjust, vjust=x$vjust)
+dummyXFontDef <- function(op, state) {
+    list(name="unknown", index=0,
+         size=toTeX(unit(10, "pt"), state))
 }
 
 ## Define (and register) dummy TeX engine
 dummyEngine <- TeXengine(name="dummy",
                          command=NULL,
-                         buildGrobs=dummyGrobs)
+                         xFontDef=dummyXFontDef)
 
 registerEngine(dummyEngine)

@@ -1,16 +1,16 @@
 
 import("grid")
 
+import("hexView")
+
 importFrom("dvi",
            "readDVI")
 
 export("TeXengine", "registerEngine",
 
        "TeXstate", "TeXget", "TeXmget", "TeXset",
-       "fromTeX", "toTeX",
        
        "FontLibrary",
-       "TeXglyphWidth", "TeXglyphHeight", "TeXglyphBounds",
        
        "LaTeXpackage", "registerPackage",
        

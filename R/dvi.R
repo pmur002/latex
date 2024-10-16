@@ -1,6 +1,24 @@
 
+initTeXstate <- function() {
+    state <- TeXstate()
+    TeXset("scale", 1, state)
+    ## Extra slot for dummy font
+    TeXset("fonts", vector("list", 256), state)
+    TeXset("glyphs", list(), state)
+    TeXset("dir", 0, state)
+    state
+}
+
 makeContent.DVIgrob <- function(x, ...) {
-    x$engine$buildGrobs(x)
+    state <- initTeXstate()
+    TeXset("packages", x$packages, state)
+    TeXset("fontLib", x$fontLib, state)
+    TeXset("engine", x$engine, state)
+    
+    ## Generate objs from DVI
+    invisible(lapply(x$dvi, DVItoObj, state))
+
+    textGrob("Expect more ...")
 }
 
 ################################################################################
@@ -30,9 +48,10 @@ dviGrob.DVI <- function(dvi,
     if (!is.unit(y))
         y <- unit(y, default.units)
     eng <- resolveEngine(dvi, engine)
+    lib <- resolveFontLib(fontLib)
     pkgs <- resolvePackages(packages)
     gTree(dvi=dvi, x=x, y=y, hjust=hjust, vjust=vjust,
-          engine=eng, fontLib=fontLib, packages=pkgs,
+          engine=eng, fontLib=lib, packages=pkgs,
           gp=gp, name=name, vp=vp,
           cl="DVIgrob")
 }

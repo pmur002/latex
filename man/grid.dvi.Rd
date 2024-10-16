@@ -42,8 +42,7 @@ grid.dvi(\dots)
   \item{gp}{Graphical parameter settings.}
   \item{vp}{A viewport or \code{NULL}.}
   \item{\dots}{
-    Arguments specific to methods of \code{dviGrob} or,
-    for \code{grid.dvi}, arguments passed to \code{dviGrob}.
+    Arguments specific to methods of \code{dviGrob}.
   }
 }
 \details{

@@ -5,7 +5,7 @@ canTypeset <- function(engine=getOption("latex.engine")) {
     !is.null(engine$command)
 }
 
-typeset <- function(x,
+typeset <- function(tex,
                     engine=getOption("latex.engine"),
                     tinytex=getOption("latex.tinytex"),
                     ...) {
@@ -51,7 +51,7 @@ latex <- function(file, dir, engine, tinytex, sig=TRUE) {
 }
 
 ## 'x' is a "TeXdocument" from author()
-typeset.TeXdocument <- function(x,
+typeset.TeXdocument <- function(tex,
                                 engine=getOption("latex.engine"),
                                 tinytex=getOption("latex.tinytex"),
                                 texFile=NULL,
@@ -61,34 +61,34 @@ typeset.TeXdocument <- function(x,
     }
     texDir <- dirname(texFile)
     dviFile <- paste0(gsub("[.]tex", "", texFile), engine$dviSuffix)
-    writeLines(x, texFile)
+    writeLines(tex, texFile)
     latex(texFile, texDir, engine, tinytex)
     invisible(dviFile)    
 }
 
 ## 'x' is the name of a "TeXfile" from author()
-typeset.TeXfile <- function(x,
+typeset.TeXfile <- function(tex,
                             engine=getOption("latex.engine"),
                             tinytex=getOption("latex.tinytex"),
                             ...) {
-    texDir <- dirname(x)
+    texDir <- dirname(tex)
     ## TeX file may not have .tex suffix
-    dviFile <- paste0(gsub("[.]tex", "", x), engine$dviSuffix)
-    latex(x, texDir, engine, tinytex)
+    dviFile <- paste0(gsub("[.]tex", "", tex), engine$dviSuffix)
+    latex(tex, texDir, engine, tinytex)
     invisible(dviFile)
 }
                     
 ## 'x' is the name of any file containing a TeX document
-typeset.character <- function(x,
+typeset.character <- function(tex,
                               engine=getOption("latex.engine"),
                               tinytex=getOption("latex.tinytex"),
                               ## Did R generate the TeX file? (assume no)
-                              latex=FALSE, 
+                              sig=FALSE, 
                               ...) {
-    texDir <- dirname(x)
+    texDir <- dirname(tex)
     ## TeX file may not have .tex suffix
-    dviFile <- paste0(gsub("[.]tex", "", x), engine$dviSuffix)
-    latex(x, texDir, engine, tinytex, sig=latex)
+    dviFile <- paste0(gsub("[.]tex", "", tex), engine$dviSuffix)
+    latex(tex, texDir, engine, tinytex, sig=sig)
     invisible(dviFile)
 }
                     

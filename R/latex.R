@@ -5,7 +5,11 @@ latexGrob <- function(tex,
                       engine=getOption("latex.engine"),
                       fontLib=NULL,
                       packages=NULL,
-                      tinytex=getOption("latex.tinytex")) {
+                      tinytex=getOption("latex.tinytex"),
+                      ...,
+                      name="LaTeXgrob",
+                      gp=gpar(),
+                      vp=NULL) {
     engine <- getEngine(engine)
     lib <- resolveFontLib(fontLib)
     pkgs <- resolvePackages(packages)
@@ -15,8 +19,9 @@ latexGrob <- function(tex,
     dviGrob(dvi,
             x=x, y=y, default.units=default.units,
             hjust=hjust, vjust=vjust,
-            engine=engine, package=pkgs,
-            fontLib=lib)
+            engine=engine, package=pkgs, fontLib=lib,
+            ...,
+            name=name, gp=gp, vp=vp)
 }
 
 grid.latex <- function(...) {

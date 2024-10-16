@@ -1,4 +1,12 @@
 
+importFrom("grDevices",
+           "glyphAnchor",
+           "glyphFont",
+           "glyphFontList",
+           "glyphHeight",
+           "glyphInfo",
+           "glyphWidth")
+
 import("grid")
 
 import("hexView")
@@ -19,3 +27,6 @@ export("TeXengine", "registerEngine",
 S3method("dviGrob", "DVI")
 
 S3method("makeContent", "DVIgrob")
+
+S3method("objToGrob", "LaTeXglyphObj")
+S3method("objToGrob", "LaTeXruleObj")

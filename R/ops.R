@@ -306,10 +306,14 @@ op_x_font_def <- function(op, state) {
     ## Avoid redefining the same font 
     if (is.null(fonts[[fontnum]]) ||
         !(identical_font(op, fonts[[fontnum]]$op))) {
-        fontDef <- engine$xFontDef(op, state)
-        fonts[[fontnum]] <- list(file=fontDef$name,
-                                 index=fontDef$index,
-                                 size=72.27*fromTeX(fontDef$size, state)/25.4*
+        fontnameChars <-
+            blockValue(op$blocks$op.opparams.fontinfo.marker.fontname.block)
+        fontname <- paste(fontnameChars, collapse="")
+        fontindex <- blockValue(op$blocks$op.opparams.fontinfo.marker.fontindex)
+        fontsize <- blockValue(op$block$op.opparams.ptsize)
+        fonts[[fontnum]] <- list(file=fontname,
+                                 index=fontindex,
+                                 size=72.27*fromTeX(fontsize, state)/25.4*
                                      mag/1000,
                                  op=op)
         TeXset("fonts", fonts, state)

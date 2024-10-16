@@ -5,14 +5,12 @@ set("engines", list())
 TeXengine <- function(name,
                       command,
                       options=NULL,
-                      xFontDef,
                       preamble="",
                       dviSuffix=".dvi") {
     engine <- list(name=tolower(name),
                    command=command,
                    options=options,
                    preamble=preamble,
-                   xFontDef=xFontDef,
                    dviSuffix=dviSuffix)
     class(engine) <- "TeXengine"
     engine
@@ -68,14 +66,8 @@ resolveEngine <- function(dvi, engine) {
 ################################################################################
 ## Dummy engine
 
-dummyXFontDef <- function(op, state) {
-    list(name="unknown", index=0,
-         size=toTeX(unit(10, "pt"), state))
-}
-
 ## Define (and register) dummy TeX engine
 dummyEngine <- TeXengine(name="dummy",
-                         command=NULL,
-                         xFontDef=dummyXFontDef)
+                         command=NULL)
 
 registerEngine(dummyEngine)

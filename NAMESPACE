@@ -18,16 +18,33 @@ importFrom("dvi",
            "readDVI")
 
 export("TeXengine", "registerEngine",
-
+       
        "TeXstate", "TeXget", "TeXmget", "TeXset",
        
        "FontLibrary",
        
        "LaTeXpackage", "registerPackage",
+       "fontspecPackage",
        
        "grid.dvi", "dviGrob",
 
        "grid.latex", "latexGrob", "author", "typeset")
+
+S3method("packagePreamble", "NULL")
+S3method("packagePreamble", "LaTeXpackage")
+S3method("packagePreamble", "list")
+S3method("packagePrefix", "NULL")
+S3method("packagePrefix", "LaTeXpackage")
+S3method("packagePrefix", "list")
+S3method("packageSuffix", "NULL")
+S3method("packageSuffix", "LaTeXpackage")
+S3method("packageSuffix", "list")
+S3method("resolvePackage", "character")
+S3method("resolvePackage", "LaTeXpackage")
+S3method("resolvePackages", "character")
+S3method("resolvePackages", "LaTeXpackage")
+S3method("resolvePackages", "list")
+S3method("resolvePackages", NULL)
 
 S3method("typeset", "TeXdocument")
 S3method("typeset", "TeXfile")

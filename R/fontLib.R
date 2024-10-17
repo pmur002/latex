@@ -63,13 +63,15 @@ TeXglyphBounds <- function(index, file, size, fontLib, pre) {
 ## Dummy Font Library
 
 dummyWidth <- function(index, file) {
+    ## Fixed advance width
     w <- 500
     attr(w, "unitsPerEm") <- 1000
     w
 }
 
 dummyBounds <- function(index, file) {
-    bbox <- c(0, 0, 500, 1000)
+    ## Fixed width and fixed height
+    bbox <- c(0, 0, 400, 700)
     attr(bbox, "unitsPerEm") <- 1000
     bbox
 }

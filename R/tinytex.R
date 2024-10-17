@@ -16,9 +16,9 @@ initTinyTeX <- function() {
 }
 
 tinytexVersion <- function() {
-    get("texVersion")
+    get("tinytexVersion")
 }
 
 tinytexAvailable <- function() {
-    !is.null(texVersion())
+    !is.null(tinytexVersion())
 }

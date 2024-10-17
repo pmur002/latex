@@ -31,6 +31,8 @@ registerEngine(dummyEngine)
         registerEngine(XeTeXengine)
         options(latex.engine=XeTeXengine)
     }
+    ## Define and register packages
+    registerPackage(fontspecPackage())
 }
 
 .onAttach <- function(libname, pkgname) {

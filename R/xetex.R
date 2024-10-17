@@ -1,13 +1,10 @@
 
 initXeTeX <- function() {
     xetex <- Sys.which("xelatex")
-    if (nchar(xetex) == 0) {
-        packageStartupMessage("  xelatex:  not found")
-    } else {
+    if (nchar(xetex) > 0) {
         versText <- system("xelatex --version", intern=TRUE)
         versLine <- grep("^XeTeX", versText)
         version <- gsub(".+ ([0-9.-]+) .+", "\\1", versText[versLine])
-        packageStartupMessage(paste0("  xelatex:  ", version))
         set("xetexVersion", version)
     }
 }

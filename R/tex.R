@@ -4,7 +4,7 @@ initTeX <- function() {
     if (nchar(latex) > 0) {
         versText <- system("latex --version", intern=TRUE)
         version <- versText[1]
-        set("latexVersion", version)        
+        set("texVersion", version)        
     }
 }
 

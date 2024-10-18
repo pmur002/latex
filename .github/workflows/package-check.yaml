@@ -18,7 +18,7 @@ jobs:
           tools: base
       - name: Install tinytex
         uses: s-u/R-actions/tinytex@v1
-      - name: Clone {dvi}
+      - name: Checkout {dvi}
         uses: actions/checkout@v4
         with: 
           repository: pmur002/dvi
@@ -44,10 +44,10 @@ jobs:
         uses: actions/checkout@v4
         with: 
           repository: pmur002/ttx
-          path: deps
+          path: ttx
       - name: Install {ttx}
         run: |
-          R CMD build deps/ttx
+          R CMD build ttx
           R CMD INSTALL ttx*.tar.gz
       - uses: s-u/R-actions/pkg-check@v2
         with:

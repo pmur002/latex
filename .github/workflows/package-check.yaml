@@ -22,8 +22,10 @@ jobs:
         uses: s-u/R-actions/tinytex@v1
       - name: Install {dvi}
         run: |
+          cd deps 
           R CMD build deps/dvi
           R CMD INSTALL dvi*.tar.gz
+          cd ..
       - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'
         run: |

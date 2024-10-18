@@ -26,6 +26,7 @@ jobs:
         run: |
           ls
           cd deps 
+          ls
           R CMD build dvi
           R CMD INSTALL dvi*.tar.gz
           cd ..

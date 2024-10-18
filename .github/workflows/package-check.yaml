@@ -11,6 +11,8 @@ jobs:
         r-version: [ devel ] # [ release, devel ]
     steps:
       - uses: actions/checkout@v4
+        with: 
+          path: main
       - name: Install R
         uses: s-u/R-actions/install@v2
         with:
@@ -18,12 +20,10 @@ jobs:
           tools: base
       - name: Install tinytex
         uses: s-u/R-actions/tinytex@v1
-      - name: Install {remotes}
-        run: |
-          Rscript -e 'install.packages("remotes", repos="https://cloud.r-project.org/")'
       - name: Install {dvi}
         run: |
-          Rscript -e 'remotes::install_github("pmur002/dvi")'
+          R CMD build deps/dvi
+          R CMD INSTALL dvi*.tar.gz
       - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'
         run: |
@@ -36,9 +36,15 @@ jobs:
           pip install fonttools
           choco install fontforge
           echo 'C:\Program Files (x86)\FontForgeBuilds\' >> $GITHUB_PATH
+      - name: Checkout {ttx}
+        uses: actions/checkout@v4
+        with: 
+          repository: pmur002/ttx
+          path: deps
       - name: Install {ttx}
         run: |
-          Rscript -e 'remotes::install_github("pmur002/dvi")'
+          R CMD build deps/ttx
+          R CMD INSTALL ttx*.tar.gz
       - uses: s-u/R-actions/pkg-check@v2
         with:
           pkg-path: main

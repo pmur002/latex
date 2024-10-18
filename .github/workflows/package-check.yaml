@@ -20,6 +20,7 @@ jobs:
         uses: s-u/R-actions/tinytex@v1
       - name: Clone {dvi}
         uses: actions/checkout@v4
+        repository: pmur002/dvi
         with: 
           path: dvi
       - name: Install {dvi}

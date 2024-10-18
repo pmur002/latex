@@ -20,7 +20,7 @@ jobs:
         uses: s-u/R-actions/tinytex@v1
       - name: Install {remotes}
         run: |
-          Rscript -e 'install.packages("remotes")'
+          Rscript -e 'install.packages("remotes", repos="https://cloud.r-project.org/")'
       - name: Install {dvi}
         run: |
           Rscript -e 'install_github("pmur002/dvi")'

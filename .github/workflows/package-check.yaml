@@ -25,6 +25,10 @@ jobs:
         with: 
           repository: pmur002/dvi
           path: deps
+      - name: where the doot am I?
+        run: |
+          pwd
+          ls
       - name: Install {dvi}
         run: |
           R CMD build deps/dvi

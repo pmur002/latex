@@ -16,11 +16,12 @@ jobs:
         with:
           r-version: ${{ matrix.r-version }}
           tools: base
-      - name: Install ttx system deps
+      - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'
         run: |
           brew install fonttools
           brew install fontforge
+      - name: Install ttx system deps on Windows
         if: runner.os == 'Windows'
         shell: bash
         run: |

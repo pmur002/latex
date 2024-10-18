@@ -28,7 +28,8 @@ jobs:
       - name: where the doot am I?
         run: |
           pwd
-          ls
+          ls -l
+          ls -l deps
       - name: Install {dvi}
         run: |
           R CMD build deps/dvi

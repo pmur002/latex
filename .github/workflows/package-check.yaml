@@ -16,6 +16,15 @@ jobs:
         with:
           r-version: ${{ matrix.r-version }}
           tools: base
+      - name: Install tinytex
+        uses: s-u/R-actions/tinytex@v1
+      - name: Checkout {dvi}
+        uses: actions/checkout@v4
+        with: 
+          name: pmur002/dvi
+      - name: Install {dvi}
+        run: |
+          R CMD INSTALL dvi
       - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'
         run: |
@@ -28,6 +37,13 @@ jobs:
           pip install fonttools
           choco install fontforge
           echo 'C:\Program Files (x86)\FontForgeBuilds\' >> $GITHUB_PATH
+      - name: Checkout {ttx}
+        uses: actions/checkout@v4
+        with: 
+          name: pmur002/ttx
+      - name: Install {ttx}
+        run: |
+          R CMD INSTALL ttx
       - uses: s-u/R-actions/pkg-check@v2
         with:
           debian-deps: 

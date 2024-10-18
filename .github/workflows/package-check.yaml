@@ -47,6 +47,7 @@ jobs:
           path: ttx
       - name: Install {ttx}
         run: |
+          Rscript -e 'install.packages("xml2", repos="https://cloud.r-project.org")'
           R CMD build ttx
           R CMD INSTALL ttx*.tar.gz
       - uses: s-u/R-actions/pkg-check@v2

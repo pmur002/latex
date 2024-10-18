@@ -24,9 +24,8 @@ jobs:
           path: dvi
       - name: Install {dvi}
         run: |
-          ls
           R CMD build dvi
-          R CMD INSTALL dvi*.tar.gz
+          R CMD INSTALL $(ls dvi*.tar.gz)
           cd ..
       - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'

@@ -1,0 +1,35 @@
+name: Package check
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  check:
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} R ${{ matrix.r-version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ macos-13, macos-14, ubuntu-22.04, windows-2022 ]
+        r-version: [ release, devel ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install R
+        uses: s-u/R-actions/install@v2
+        with:
+          r-version: ${{ matrix.r-version }}
+          tools: base
+      - name: Install ttx system deps
+        if: runner.os == 'macOS'
+        run: |
+          brew install fonttools
+          brew install fontforge
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          pip install fonttools
+          choco install fontforge
+          echo 'C:\Program Files (x86)\FontForgeBuilds\' >> $GITHUB_PATH
+      - uses: s-u/R-actions/pkg-check@v2
+        with:
+          debian-deps: 
+            fonttools
+            fontforge
+          check-flags: --as-cran

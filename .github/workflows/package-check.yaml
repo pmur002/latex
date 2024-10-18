@@ -21,7 +21,7 @@ jobs:
       - name: Checkout {dvi}
         uses: actions/checkout@v4
         with: 
-          name: pmur002/dvi
+          repository: pmur002/dvi
       - name: Install {dvi}
         run: |
           R CMD build dvi
@@ -41,7 +41,7 @@ jobs:
       - name: Checkout {ttx}
         uses: actions/checkout@v4
         with: 
-          name: pmur002/ttx
+          repository: pmur002/ttx
       - name: Install {ttx}
         run: |
           R CMD build ttx

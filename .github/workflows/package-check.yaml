@@ -25,8 +25,8 @@ jobs:
           path: dvi
       - name: Install {dvi}
         run: |
+          Rscript -e 'install.packages("hexView")'
           R CMD build dvi
-          ls
           R CMD INSTALL $(ls dvi*.tar.gz)
       - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'

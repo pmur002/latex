@@ -23,7 +23,7 @@ jobs:
           Rscript -e 'install.packages("remotes", repos="https://cloud.r-project.org/")'
       - name: Install {dvi}
         run: |
-          Rscript -e 'install_github("pmur002/dvi")'
+          Rscript -e 'remotes::install_github("pmur002/dvi")'
       - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'
         run: |
@@ -38,7 +38,7 @@ jobs:
           echo 'C:\Program Files (x86)\FontForgeBuilds\' >> $GITHUB_PATH
       - name: Install {ttx}
         run: |
-          Rscript -e 'install_github("pmur002/dvi")'
+          Rscript -e 'remotes::install_github("pmur002/dvi")'
       - uses: s-u/R-actions/pkg-check@v2
         with:
           pkg-path: main

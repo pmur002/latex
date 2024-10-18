@@ -27,7 +27,7 @@ jobs:
           path: deps
       - name: Install {dvi}
         run: |
-          R CMD build dvi
+          R CMD build deps/dvi
           R CMD INSTALL dvi*.tar.gz
       - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'
@@ -48,7 +48,7 @@ jobs:
           path: deps
       - name: Install {ttx}
         run: |
-          R CMD build ttx
+          R CMD build deps/ttx
           R CMD INSTALL ttx*.tar.gz
       - uses: s-u/R-actions/pkg-check@v2
         with:

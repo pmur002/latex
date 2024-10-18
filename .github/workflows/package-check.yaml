@@ -21,11 +21,9 @@ jobs:
       - name: Clone {dvi}
         uses: actions/checkout@v4
         with: 
-          path: deps          
+          path: dvi
       - name: Install {dvi}
         run: |
-          ls
-          cd deps 
           ls
           R CMD build dvi
           R CMD INSTALL dvi*.tar.gz

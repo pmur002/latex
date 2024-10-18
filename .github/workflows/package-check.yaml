@@ -52,7 +52,6 @@ jobs:
           R CMD INSTALL ttx*.tar.gz
       - uses: s-u/R-actions/pkg-check@v2
         with:
-          pkg-path: main
           debian-deps: 
             fonttools
             fontforge

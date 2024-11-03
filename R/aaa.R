@@ -16,6 +16,18 @@ set <- function(name, value) {
     assign(name, value, envir=latex_state)
 }
 
+## Signatures to put in TeX code when authoring and DVI output when typesetting
+engineCommentHeader <- "R package latex_"
+engineCommentName <- "engine name: "
+engineCommentVersion <- "engine version: "
+engineCommentSep <- "; "
 
+buildSignature <- function(engine) {
+    paste0(engineCommentHeader, packageVersion("latex"), engineCommentSep,
+           engineCommentName, engine$name, engineCommentSep,
+           engineCommentVersion, engine$version)
+}
 
-
+splitSignature <- function(sig) {
+    strsplit(sig, engineCommentSep)[[1]]
+}

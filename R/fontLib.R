@@ -13,12 +13,21 @@ FontLibrary <- function(glyphWidth,
 }
 
 resolveFontLib <- function(lib) {
-    if (is.null(lib)) {
-        warning(paste("No Font Library specified;",
-                      "falling back to dummy Font Library",
-                      "(positioning of glyphs will be compromised)"))
-        lib <- dummyFontLib
-    }
+    UseMethod("resolveFontLib")
+}
+
+resolveFontLib.default <- function(lib) {
+    stop("Invalid Font Library")
+}
+
+resolveFontLib.NULL <- function(lib) {
+    warning(paste("No Font Library specified;",
+                  "falling back to null Font Library",
+                  "(positioning of glyphs will be compromised)"))
+    nullFontLib
+}
+
+resolveFontLib.FontLibrary <- function(lib) {
     lib
 }
 
@@ -60,22 +69,22 @@ TeXglyphBounds <- function(index, file, size, fontLib, pre) {
 }
 
 ################################################################################
-## Dummy Font Library
+## Null Font Library
 
-dummyWidth <- function(index, file) {
+nullWidth <- function(index, file) {
     ## Fixed advance width
     w <- 500
     attr(w, "unitsPerEm") <- 1000
     w
 }
 
-dummyBounds <- function(index, file) {
+nullBounds <- function(index, file) {
     ## Fixed width and fixed height
     bbox <- c(0, 0, 400, 700)
     attr(bbox, "unitsPerEm") <- 1000
     bbox
 }
 
-dummyFontLib <- FontLibrary(glyphWidth=dummyWidth,
-                            glyphHeight=NULL,
-                            glyphBounds=dummyBounds)
+nullFontLib <- FontLibrary(glyphWidth=nullWidth,
+                           glyphHeight=NULL,
+                           glyphBounds=nullBounds)

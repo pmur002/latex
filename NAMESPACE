@@ -15,11 +15,13 @@ import("grid")
 import("hexView")
 
 importFrom("dvi",
+           "opCodes",
+           "opParams",
            "readDVI")
 
-export("TeXengine", "registerEngine",
-       
-       "TeXstate", "TeXget", "TeXmget", "TeXset",
+export("TeXstate", "TeXget", "TeXmget", "TeXset",
+
+       "TeXengine", "registerEngine",
        
        "FontLibrary",
        
@@ -47,7 +49,6 @@ S3method("resolvePackages", "list")
 S3method("resolvePackages", NULL)
 
 S3method("typeset", "TeXdocument")
-S3method("typeset", "TeXfile")
 S3method("typeset", "character")
 
 S3method("dviGrob", "DVI")

@@ -66,10 +66,6 @@ dviGrob.DVI <- function(dvi,
                         name="DVIgrob",
                         gp=gpar(),
                         vp=NULL) {
-    if (!(is.null(engine) || inherits(engine, "TeXengine")))
-        stop("Invalid TeX engine")
-    if (!(is.null(fontLib) || inherits(fontLib, "FontLibrary")))
-        stop("Invalid Font Library")
     if (!is.unit(x))
         x <- unit(x, default.units)
     if (!is.unit(y))

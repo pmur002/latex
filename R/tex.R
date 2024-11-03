@@ -1,21 +1,4 @@
 
-initTeX <- function() {
-    latex <- Sys.which("latex")
-    if (nchar(latex) > 0) {
-        versText <- system("latex --version", intern=TRUE)
-        version <- versText[1]
-        set("texVersion", version)        
-    }
-}
-
-texVersion <- function() {
-    get("texVersion")
-}
-
-texAvailable <- function() {
-    !is.null(texVersion())
-}
-
 ################################################################################
 ## TeX state for keeping track of values during DVI sweep
 

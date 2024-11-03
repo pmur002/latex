@@ -339,25 +339,32 @@ setGlyphs <- function(op, state) {
     nGlyphs <- blockValue(op$blocks$op.opparams.n)
     glyphIds <- blockValue(op$blocks$op.opparams.glyphs.id)
     glyphLocs <- paste0("op.opparams.glyphs.xy", 1:(2*nGlyphs))
+    glyphWidth <- 0
     for (i in 1:nGlyphs) {
         id <- glyphIds[i]
+        glyphX <- blockValue(op$blocks[[glyphLocs[2*i - 1]]])
+        glyphY <- blockValue(op$blocks[[glyphLocs[2*i]]])
+        x <- h + glyphX
+        y <- v - glyphY
+        xx <- fromTeX(x, state)
+        yy <- fromTeX(y, state)
+        glyph <- glyph(xx, yy, id, f, font$size, colour=colour[1])
+        ## Update bounding box of drawing
+        ## BUT do NOT update h/v
         bbox <- TeXglyphBounds(id, font$file, font$size, fontLib, state)
         width <- TeXglyphWidth(id, font$file, font$size, fontLib, state)
-        ## Position glyph then move
-        x <- fromTeX(h, state)
-        y <- fromTeX(v, state)
-        glyph <- glyph(x, y, id, f, font$size, colour=colour[1])
-        updateBBoxHoriz(h + bbox[1], state) ## left
-        updateBBoxHoriz(h + bbox[2], state) ## right
-        updateBBoxVert(v - bbox[3], state) ## bottom
-        updateBBoxVert(v - bbox[4], state) ## top
-        TeXset("h", h + width[1], state)
-        updateTextLeft(h, state)
-        updateTextRight(h + width[1], state)
+        updateBBoxHoriz(x + bbox[1], state) ## left
+        updateBBoxHoriz(x + bbox[2], state) ## right
+        updateBBoxVert(y - bbox[3], state) ## bottom
+        updateBBoxVert(y - bbox[4], state) ## top
+        updateTextLeft(x, state)
+        updateTextRight(x + width[1], state)
         addGlyph(glyph, state)
-        ## For next iteration
-        h <- TeXget("h", state)
+        ## Keep track of total glyph width
+        glyphWidth <- glyphWidth + width[1]
     }
+    ## Update h at the end for all glyphs
+    TeXset("h", h + glyphWidth, state)
 }
 
 ## 253
@@ -379,4 +386,15 @@ op_x_glyph_str <- function(op, state) {
 op_dir <- function(op, state) {
     dir <- blockValue(op$blocks$op.opparams)
     TeXset("dir", dir, state)
+}
+
+################################################################################
+
+## Functions for extracting specific pieces of DVI
+
+commentString <- function(dvi) {
+    codes <- opCodes(dvi)
+    params <- opParams(dvi)
+    commentParams <- params[[which(codes == 247)]]
+    paste(commentParams$comment.string, collapse="")
 }

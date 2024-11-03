@@ -1,30 +1,22 @@
 
-## Dummy TeX engine that CANNOT be used for typesetting
-dummyEngine <- TeXengine(name="dummy",
-                         command=NULL)
-registerEngine(dummyEngine)
+## Null TeX engine that CANNOT be used for typesetting
+nullEngine <- TeXengine(name="null",
+                        version=packageVersion("latex"),
+                        command=NULL,
+                        isEngine=function(dvi) FALSE)
+registerEngine(nullEngine)
 
 .onLoad <- function(libname, pkgname) {
-    options(latex.engine=dummyEngine)
-    ## Check for TeX
-    initTeX()
+    options(latex.engine=nullEngine)
     ## Check for {tinytex}
     initTinyTeX()
-    if (texAvailable() || tinytexAvailable()) {
-        ## Generic LaTeX engine that will use whatever engine 'latex' uses
-        LaTeXengine <- TeXengine(name="LaTeX",
-                                 command="latex",
-                                 options="--output-format=dvi",
-                                 preamble="\\usepackage{unicode-math}",
-                                 dviSuffix=".dvi")
-        registerEngine(LaTeXengine)
-        options(latex.engine=LaTeXengine)
-    } 
     ## Define and register XeTeX engine 
     initXeTeX()
     if (xetexAvailable()) {
         XeTeXengine <- TeXengine(name="XeTeX",
+                                 version=xetexVersion(),
                                  command="xelatex",
+                                 isEngine=isXeTeX,
                                  options="--no-pdf",
                                  preamble=xelatexPreamble,
                                  dviSuffix=".xdv")   
@@ -36,25 +28,21 @@ registerEngine(dummyEngine)
 }
 
 .onAttach <- function(libname, pkgname) {
-    if (texAvailable()) {
-        packageStartupMessage(paste0("    latex:  ", texVersion()))
-    } else {
-        packageStartupMessage("    latex:  not found")
-    }
     if (tinytexAvailable()) {
         packageStartupMessage(paste0("  tinytex:  ", tinytexVersion()))
     } else {
         packageStartupMessage("  tinytex:  not installed")
     }
-    if (!(texAvailable() || tinytexAvailable())) {
-        packageStartupMessage(paste("         : ",
-                                    "Typesetting is NOT available."))
-    }
     if (xetexAvailable()) {
-        packageStartupMessage(paste0("  xelatex:  ", xetexVersion()))
+        packageStartupMessage(paste0("    xetex:  ", xetexVersion()))
     } else {
-        packageStartupMessage("  xelatex:  not found")
+        packageStartupMessage("    xetex:  not found")
         packageStartupMessage(paste("         : ",
                                     "The XeTeX engine is NOT available."))
+    }
+    if (!(any(sapply(get("engines"), canTypeset)) ||
+          tinytexAvailable())) {
+        packageStartupMessage(paste("         : ",
+                                    "Typesetting is NOT available."))
     }
 }

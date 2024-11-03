@@ -22,10 +22,9 @@ latex <- function(file, dir, engine, tinytex, sig=TRUE) {
         stop("{tinytex} requested, but not available")
     }
     if (sig) {
-        signature <- paste0(engine$name, " from R package latex_",
-                            packageVersion("latex"))
+        sig <- buildSignature(engine)
         options <- c(engine$options,
-                     paste0('--output-comment="', signature, '"'),
+                     paste0('--output-comment="', sig, '"'),
                      paste0("--output-directory=", dir))
     } else {
         options <- c(engine$options,
@@ -52,10 +51,11 @@ latex <- function(file, dir, engine, tinytex, sig=TRUE) {
 
 ## 'x' is a "TeXdocument" from author()
 typeset.TeXdocument <- function(tex,
-                                engine=getOption("latex.engine"),
+                                engine=NULL,
                                 tinytex=getOption("latex.tinytex"),
                                 texFile=NULL,
                                 ...) {
+    engine <- resolveEngine(tex, engine)
     if (is.null(texFile)) {
         texFile <- tempfile(fileext=".tex")
     }
@@ -63,33 +63,68 @@ typeset.TeXdocument <- function(tex,
     dviFile <- paste0(gsub("[.]tex", "", texFile), engine$dviSuffix)
     writeLines(tex, texFile)
     latex(texFile, texDir, engine, tinytex)
+    attr(dviFile, "engine") <- engine
+    class(dviFile) <- "DVIfile"
     invisible(dviFile)    
 }
 
-## 'x' is the name of a "TeXfile" from author()
-typeset.TeXfile <- function(tex,
-                            engine=getOption("latex.engine"),
-                            tinytex=getOption("latex.tinytex"),
-                            ...) {
-    texDir <- dirname(tex)
-    ## TeX file may not have .tex suffix
-    dviFile <- paste0(gsub("[.]tex", "", tex), engine$dviSuffix)
-    latex(tex, texDir, engine, tinytex)
-    invisible(dviFile)
-}
-                    
-## 'x' is the name of any file containing a TeX document
+## 'x' is the name of a file containing TeX code
 typeset.character <- function(tex,
-                              engine=getOption("latex.engine"),
+                              engine=NULL,
                               tinytex=getOption("latex.tinytex"),
                               ## Did R generate the TeX file? (assume no)
                               sig=FALSE, 
                               ...) {
+    if (length(tex) != 1) 
+        stop("'tex' must be the name of exactly one TeX file")
+    engine <- resolveEngine(readLines(tex), engine)
     texDir <- dirname(tex)
-    ## TeX file may not have .tex suffix
     dviFile <- paste0(gsub("[.]tex", "", tex), engine$dviSuffix)
     latex(tex, texDir, engine, tinytex, sig=sig)
+    attr(dviFile, "engine") <- engine
+    class(dviFile) <- "DVIfile"
     invisible(dviFile)
 }
                     
+## What engine was used to typeset the TeX code?
+typesetEngine <- function(x) {
+    UseMethod("typesetEngine")
+}
 
+typesetEngine.DVIfile <- function(x) {
+    attr(x, "engine")
+}
+
+typesetEngine.DVI <- function(x) {
+    commentStr <- commentString(x)
+    commentLine <- commentLine(commentStr)
+    if (length(commentLine)) {
+        ## If latex::typeset() produced the DVI then engine should be
+        ## in comment of DVI preamble
+        sig <- splitSignature(commentStr)
+        engineName <- gsub(engineCommentName, "", sig[2], fixed=TRUE)
+        engineVersion <- gsub(engineCommentVersion, "", sig[3], fixed=TRUE)
+        getEngine(engineName)
+    } else {
+        warning("Guessing typesetting engine from DVI pre op comment")
+        ## Try to guess from DVI pre op comment
+        engines <- get("engines")
+        isEngine <- sapply(engines, function(y) y$isEngine(x))
+        if (any(isEngine)) {
+            if (sum(isEngine) > 1) {
+                warning(paste0("More than one engine identified ",
+                               "(", paste(sapply(engines[isEngine],
+                                                 function(x) x$name),
+                                          collapse=", "), ");",
+                               "using the first match ",
+                               "(", engines[[which(isEngine)[1]]]$name, ")"))
+            }
+            engines[[which(isEngine)[1]]]
+        } else {
+            warning(paste0("Unable to identify engine from DVI pre op comment ",
+                           "(", commentStr, ");",
+                           "falling back to null engine"))
+            engines[["null"]]
+        }
+    }    
+}

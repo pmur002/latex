@@ -20,3 +20,8 @@ xetexAvailable <- function() {
 ## Ensure non-Type1 math font
 xelatexPreamble <- "\\usepackage{unicode-math}"
 
+isXeTeX <- function(dvi) {
+    commentStr <- commentString(dvi)
+    grepl("XeTeX", commentStr)
+}
+

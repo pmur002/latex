@@ -4,7 +4,6 @@
 \alias{author}
 \alias{typeset}
 \alias{typeset.TeXdocument}
-\alias{typeset.TeXfile}
 \alias{typeset.character}
 \title{
   Render LaTeX in R
@@ -28,24 +27,19 @@ grid.latex(\dots)
 
 author(tex,
        engine=getOption("latex.engine"),
-       packages=NULL,
-       texFile=NULL)
+       packages=NULL)
 
 typeset(tex,
         engine=getOption("latex.engine"),
         tinytex=getOption("latex.tinytex"),
         ...)
 \method{typeset}{TeXdocument}(tex,
-        engine=getOption("latex.engine"),
+        engine=NULL,
         tinytex=getOption("latex.tinytex"),
         texFile=NULL,
         ...)
-\method{typeset}{TeXfile}(tex,
-        engine=getOption("latex.engine"),
-        tinytex=getOption("latex.tinytex"),
-        ...)
 \method{typeset}{character}(tex,
-        engine=getOption("latex.engine"),
+        engine=NULL,
         tinytex=getOption("latex.tinytex"),
         sig=FALSE, 
         ...)
@@ -59,7 +53,8 @@ typeset(tex,
   \item{hjust, vjust}{Justification of the output relative to the
     \code{x}/\code{y} location.}
   \item{engine}{The TeX engine that should be used to author, typeset,
-    and render the LaTeX.}
+    and render the LaTeX.  May be the name of a TeX engine (character)
+    or a \code{"TeXengine"} object.}
   \item{fontLib}{The font libraary the should be used to query fonts
     and glyphs.}
   \item{packages}{The LaTeX packages to be used.}

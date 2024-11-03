@@ -10,7 +10,9 @@
 }
 \usage{
 TeXengine(name,
+          version,
           command,
+          isEngine,
           options=NULL,
           preamble="",
           dviSuffix=".dvi")
@@ -18,8 +20,11 @@ registerEngine(engine)
 }
 \arguments{
   \item{name}{Character name for the engine.}
+  \item{version}{Character version for the engine.}
   \item{command}{Command used to typeset LaTeX documents and produce DVI
     files.}
+  \item{isEngine}{Function that accepts \code{"DVI"} object and returns
+    boolean indicating whether the engine generated the DVI.}
   \item{options}{Character vector of options to \code{command}.}
   \item{preamble}{Preamble for authoring LaTeX documents.}
   \item{dviSuffix}{Suffix for files produced by typesetting LaTeX

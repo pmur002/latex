@@ -161,4 +161,6 @@ getEngine.character <- function(engine) {
     }
 }
 
-
+print.TeXengine <- function(x, ...) {
+    cat(paste0(x$name, " (", x$version, ")\n"))
+}

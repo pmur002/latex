@@ -15,12 +15,12 @@ author <- function(tex,
                    packages=NULL) {
     engine <- getEngine(engine)
     pkgs <- resolvePackages(packages)
-    texDoc <- c("\\documentclass{standalone}",
+    texDoc <- c(## Record engine used for authoring
+                engineComment(engine),
+                "\\documentclass{standalone}",
                 engine$preamble,
                 packagePreamble(pkgs),
                 "\\begin{document}",
-                ## Record engine used for authoring
-                engineComment(engine),
                 packagePrefix(pkgs),
                 tex,
                 packageSuffix(pkgs),
@@ -51,3 +51,6 @@ authorEngine.TeXdocument <- function(tex) {
     attr(tex, "engine")
 }
 
+print.TeXdocument <- function(x, ...) {
+    cat(as.character(x), sep="\n")
+}

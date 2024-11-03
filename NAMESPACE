@@ -57,3 +57,6 @@ S3method("makeContent", "DVIgrob")
 
 S3method("objToGrob", "LaTeXglyphObj")
 S3method("objToGrob", "LaTeXruleObj")
+
+S3method("print", "TeXengine")
+S3method("print", "TeXdocument")

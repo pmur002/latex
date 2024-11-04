@@ -7,8 +7,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-13, macos-14, ubuntu-22.04, windows-2022 ]
-        r-version: [ release, devel ]
+        os: [ ubuntu-22.04 ] # [ macos-13, macos-14, ubuntu-22.04, windows-2022 ]
+        r-version: [ release ] # [ release, devel ]
     steps:
       - uses: actions/checkout@v4
       - name: Install R
@@ -23,11 +23,10 @@ jobs:
         with: 
           repository: pmur002/dvi
           path: dvi
-      - name: Install {dvi}
-        run: |
-          Rscript -e 'install.packages(c("hexView"), repos="https://cloud.r-project.org")'
-          R CMD build --no-build-vignettes dvi
-          R CMD INSTALL dvi*.tar.gz
+      - name: Install {dvi} 
+        uses: s-u/R-actions/pkg-check@v2
+        with: 
+          pkg-path: dvi
       - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'
         run: |
@@ -46,10 +45,9 @@ jobs:
           repository: pmur002/ttx
           path: ttx
       - name: Install {ttx}
-        run: |
-          Rscript -e 'install.packages("xml2", repos="https://cloud.r-project.org")'
-          R CMD build --no-build-vignettes ttx
-          R CMD INSTALL ttx*.tar.gz
+        uses: s-u/R-actions/pkg-check@v2
+        with: 
+          pkg-path: ttx
       - uses: s-u/R-actions/pkg-check@v2
         with:
           debian-deps: 

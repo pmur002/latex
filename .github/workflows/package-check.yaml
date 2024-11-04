@@ -25,6 +25,7 @@ jobs:
           path: dvi
       - name: Install {dvi} 
         run: |
+          Rscript -e 'install.packages("hexView", repos="https://cloud.r-project.org")
           Rscript -e 'install.packages("dvi", type="source", repos=NULL)'
       - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'
@@ -45,6 +46,7 @@ jobs:
           path: ttx
       - name: Install {ttx}
         run: |
+          Rscript -e 'install.packages("xml2", repos="https://cloud.r-project.org")
           Rscript -e 'install.packages("ttx", type="source", repos=NULL)'
       - uses: s-u/R-actions/pkg-check@v2
         with:

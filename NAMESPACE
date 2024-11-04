@@ -52,6 +52,8 @@ S3method("typeset", "TeXdocument")
 S3method("typeset", "character")
 
 S3method("dviGrob", "DVI")
+S3method("dviGrob", "DVIfile")
+S3method("dviGrob", "character")
 
 S3method("makeContent", "DVIgrob")
 

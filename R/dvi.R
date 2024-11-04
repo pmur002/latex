@@ -79,6 +79,12 @@ dviGrob.DVI <- function(dvi,
           cl="DVIgrob")
 }
 
+## Resolve engine from typeset() engine
+dviGrob.DVIfile <- function(dvi, ..., engine=NULL) {
+    eng <- resolveEngine(dvi, engine)
+    dviGrob(readDVI(dvi), ..., engine=eng)
+}
+
 dviGrob.character <- function(dvi, ...) {
     dviGrob(readDVI(dvi), ...)
 }

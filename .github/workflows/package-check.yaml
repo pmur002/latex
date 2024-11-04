@@ -16,14 +16,12 @@ jobs:
         with:
           r-version: ${{ matrix.r-version }}
           tools: base
-      - name: Make sure pkg-check action can see other packages on Windows
-        run: |
-          if [ ${{ runner.os }} = Windows ]; then
-            echo "R_LIBS_USER=$(pwd)\Rlib" >> $GITHUB_ENV
-          fi
-        shell: bash
       - name: Install tinytex
         uses: s-u/R-actions/tinytex@v1
+      - name: Set up common R library (try to match s-u/R-actions/pkg-check@v2)
+        run: |
+          echo LIB_DIR=$(pwd)/Rlib >> $GITHUB_ENV
+        shell: bash
       - name: Checkout {dvi}
         uses: actions/checkout@v4
         with: 
@@ -31,8 +29,9 @@ jobs:
           path: dvi
       - name: Install {dvi} 
         run: |
-          Rscript -e 'install.packages("hexView", repos="https://cloud.r-project.org")'
-          Rscript -e 'install.packages("dvi", type="source", repos=NULL)'
+          R_LIBS=$LIB_DIR Rscript -e 'install.packages("hexView", repos="https://cloud.r-project.org")'
+          R_LIBS=$LIB_DIR Rscript -e 'install.packages("dvi", type="source", repos=NULL)'
+        shell: bash
       - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'
         run: |
@@ -52,8 +51,9 @@ jobs:
           path: ttx
       - name: Install {ttx}
         run: |
-          Rscript -e 'install.packages("xml2", repos="https://cloud.r-project.org")'
-          Rscript -e 'install.packages("ttx", type="source", repos=NULL)'
+          R_LIBS=$LIB_DIR Rscript -e 'install.packages("xml2", repos="https://cloud.r-project.org")'
+          R_LIBS=$LIB_DIR Rscript -e 'install.packages("ttx", type="source", repos=NULL)'
+        shell: bash
       - uses: s-u/R-actions/pkg-check@v2
         with:
           debian-deps: 

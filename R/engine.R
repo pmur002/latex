@@ -73,6 +73,7 @@ resolveEngine.TeXdocument <- function(x, engine) {
     if (is.null(engine)) {
         e1
     } else {
+        engine <- getEngine(engine)
         engineCheck(e1, engine)
         engine
     }
@@ -88,6 +89,7 @@ resolveEngine.TeXdocument <- function(x, engine) {
 resolveEngine.character <- function(x, engine) {
     e1 <- authorEngine(x)
     if (is.null(e1)) {
+        warning("Unknown author TeX engine; typeset TeX engine may not match")
         if (is.null(engine)) {
             getOption("latex.engine")
         } else {
@@ -97,8 +99,9 @@ resolveEngine.character <- function(x, engine) {
         if (is.null(engine)) {
             e1
         } else {
+            engine <- getEngine(engine)
             engineCheck(e1, engine)
-            getEngine(engine)
+            engine
         }
     }
 }
@@ -111,8 +114,9 @@ resolveEngine.DVIfile <- function(x, engine) {
     if (is.null(engine)) {
         e1
     } else {
+        engine <- getEngine(engine)
         engineCheck(e1, engine)
-        getEngine(engine)
+        engine
     }
 }
 
@@ -125,6 +129,7 @@ resolveEngine.DVIfile <- function(x, engine) {
 resolveEngine.DVI <- function(x, engine) {
     e1 <- typesetEngine(x)
     if (is.null(e1)) {
+        warning("Unknown typeset TeX engine; render TeX engine may not match")
         if (is.null(engine)) {
             getOption("latex.engine")
         } else {
@@ -134,8 +139,9 @@ resolveEngine.DVI <- function(x, engine) {
         if (is.null(engine)) {
             e1
         } else {
+            engine <- getEngine(engine)
             engineCheck(e1, engine)
-            getEngine(engine)
+            engine
         }
     }
 }

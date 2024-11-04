@@ -3,7 +3,7 @@ library(grid)
 library(dvi)
 library(latex)
 
-## Existing DVI 
+## Existing DVI (so engine unknown)
 dviXeTeX <- readDVI(system.file("DVI", "test-xetex.xdv", package="dvi"))
 
 ## Font file paths based on my machine
@@ -20,22 +20,40 @@ if (Sys.getenv("USER") == "pmur002") {
                            ttx::ttxGlyphHeight,
                            ttx::ttxGlyphBounds)
         grid.newpage()
-        grid.dvi(dviXeTeX, fontLib=TTX)
+        ## Still warn about guessing DVI engine
+        tools::assertWarning(grid.dvi(dviXeTeX, fontLib=TTX))
     }
     
 }
 
 ## Generate DVI
 if (latex:::canTypeset()) {
+    ## Fall back to dummy fontLib
+    ## (glyph positioning is compromised)
     tex <- author("This is a test: $x - \\mu$")
     dviFile <- typeset(tex)
     dvi <- readDVI(dviFile)
     grid.newpage()
-    grid.dvi(dvi)
+    tools::assertWarning(grid.dvi(dvi))
 
     if (require("ttx")) {
+        if (!exists("TTX")) {
+            TTX <- FontLibrary(ttx::ttxGlyphWidth,
+                               ttx::ttxGlyphHeight,
+                               ttx::ttxGlyphBounds)
+        }
+        ## No warnings!
         grid.newpage()
         grid.dvi(dvi, fontLib=TTX)
+
+        if (latex:::xetexAvailable()) {
+            ## Explicit render engine that does NOT match typeset() engine
+            tex <- author("This is a test: $x - \\mu$", engine="xetex")
+            dviFile <- typeset(tex, engine="xetex")
+            dvi <- readDVI(dviFile)
+            grid.newpage()
+            tools::assertWarning(grid.dvi(dvi, engine="null", fontLib=TTX))
+        }
     }
 }
 

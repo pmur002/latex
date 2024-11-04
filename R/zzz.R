@@ -25,6 +25,7 @@ registerEngine(nullEngine)
     }
     ## Define and register packages
     registerPackage(fontspecPackage())
+    options(latex.quiet=TRUE)
 }
 
 .onAttach <- function(libname, pkgname) {

@@ -8,7 +8,7 @@ if (latex:::canTypeset()) {
     ## (glyph positioning is compromised)
     grid.newpage()
     tools::assertWarning(grid.latex("This is a test: $x - \\mu$"))
-
+    
     if (require("ttx")) {
         ## Glyph positioning should be fine
         TTX <- FontLibrary(ttx::ttxGlyphWidth,

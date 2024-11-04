@@ -45,7 +45,8 @@ latex <- function(file, dir, engine, tinytex, sig=TRUE) {
             silent=TRUE)
     } else {
         system(paste0(engine$command, " ",
-                      paste(options, collapse=" "), " ", file))
+                      paste(options, collapse=" "), " ", file),
+               ignore.stdout=getOption("latex.quiet"))
     }
 }
 
@@ -72,15 +73,18 @@ typeset.TeXdocument <- function(tex,
 typeset.character <- function(tex,
                               engine=NULL,
                               tinytex=getOption("latex.tinytex"),
+                              texFile=NULL,
                               ## Did R generate the TeX file? (assume no)
                               sig=FALSE, 
                               ...) {
-    if (length(tex) != 1) 
-        stop("'tex' must be the name of exactly one TeX file")
-    engine <- resolveEngine(readLines(tex), engine)
-    texDir <- dirname(tex)
-    dviFile <- paste0(gsub("[.]tex", "", tex), engine$dviSuffix)
-    latex(tex, texDir, engine, tinytex, sig=sig)
+    engine <- resolveEngine(tex, engine)
+    if (is.null(texFile)) {
+        texFile <- tempfile(fileext=".tex")
+    }
+    texDir <- dirname(texFile)
+    dviFile <- paste0(gsub("[.]tex", "", texFile), engine$dviSuffix)
+    writeLines(tex, texFile)
+    latex(texFile, texDir, engine, tinytex, sig=sig)
     attr(dviFile, "engine") <- engine
     class(dviFile) <- "DVIfile"
     invisible(dviFile)

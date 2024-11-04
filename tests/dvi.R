@@ -34,7 +34,9 @@ if (latex:::canTypeset()) {
     ## Fall back to dummy fontLib
     ## (glyph positioning is compromised)
     tex <- author("This is a test: $x - \\mu$")
-    dviFile <- typeset(tex)
+    cat(tex, sep="\n")
+    on.exit(cat(readLines("test.log"), sep="\n"))
+    dviFile <- typeset(tex, texFile="test.tex")
     dvi <- readDVI(dviFile)
     grid.newpage()
     tools::assertWarning(grid.dvi(dvi))

@@ -26,7 +26,7 @@ jobs:
       - name: Install {dvi}
         run: |
           Rscript -e 'install.packages(c("hexView"), repos="https://cloud.r-project.org")'
-          R CMD build --no-build--vignettes dvi
+          R CMD build --no-build-vignettes dvi
           R CMD INSTALL dvi*.tar.gz
       - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'
@@ -48,7 +48,7 @@ jobs:
       - name: Install {ttx}
         run: |
           Rscript -e 'install.packages("xml2", repos="https://cloud.r-project.org")'
-          R CMD build --no-build--vignettes ttx
+          R CMD build --no-build-vignettes ttx
           R CMD INSTALL ttx*.tar.gz
       - uses: s-u/R-actions/pkg-check@v2
         with:

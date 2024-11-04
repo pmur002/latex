@@ -3,6 +3,9 @@ library(grid)
 library(dvi)
 library(latex)
 
+## Make debugging information available
+options(ttx.quiet=FALSE, tinytex.verbose=TRUE, latex.quiet=FALSE)
+
 ## Existing DVI (so engine unknown)
 dviXeTeX <- readDVI(system.file("DVI", "test-xetex.xdv", package="dvi"))
 

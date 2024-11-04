@@ -3,6 +3,9 @@ library(grid)
 library(dvi)
 library(latex)
 
+## Make debugging information available
+options(ttx.quiet=FALSE, tinytex.verbose=TRUE, latex.quiet=FALSE)
+
 if (latex:::canTypeset()) {
     ## Fall back to dummy fontLib
     ## (glyph positioning is compromised)

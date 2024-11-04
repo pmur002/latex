@@ -1,6 +1,9 @@
 
 library(latex)
 
+## Make debugging information available
+options(ttx.quiet=FALSE, tinytex.verbose=TRUE, latex.quiet=FALSE)
+
 if (latex:::canTypeset()) {
     ## author() engine defaults 
     ## Typeset engine taken from author() engine

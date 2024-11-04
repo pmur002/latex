@@ -2,6 +2,9 @@
 library(grid)
 library(latex)
 
+## Make debugging information available
+options(ttx.quiet=FALSE, tinytex.verbose=TRUE, latex.quiet=FALSE)
+
 fontpath <- system.file("fonts", "Montserrat", "static", package="grDevices")
 
 tex <- paste0("\\setmainfont{Montserrat-Medium.ttf}",

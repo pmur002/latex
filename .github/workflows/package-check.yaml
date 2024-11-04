@@ -20,7 +20,7 @@ jobs:
         uses: s-u/R-actions/tinytex@v1
       - name: Set up common R library (try to match s-u/R-actions/pkg-check@v2)
         run: |
-          echo LIB_DIR=$(pwd)/Rlib >> $GITHUB_ENV
+          echo LIB_DIR=$(pwd)/../Rlib >> $GITHUB_ENV
         shell: bash
       - name: Checkout {dvi}
         uses: actions/checkout@v4

@@ -1,6 +1,5 @@
 name: Package check
 on: [push, pull_request, workflow_dispatch]
-env: 
 jobs:
   check:
     runs-on: ${{ matrix.os }}

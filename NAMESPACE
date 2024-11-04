@@ -30,7 +30,9 @@ export("TeXstate", "TeXget", "TeXmget", "TeXset",
        
        "grid.dvi", "dviGrob",
 
-       "grid.latex", "latexGrob", "author", "typeset")
+       "grid.latex", "latexGrob", "author", "typeset",
+
+       "grid.xelatex", "xelatexGrob")
 
 S3method("packagePreamble", "NULL")
 S3method("packagePreamble", "LaTeXpackage")

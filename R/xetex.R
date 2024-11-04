@@ -25,3 +25,33 @@ isXeTeX <- function(dvi) {
     grepl("XeTeX", commentStr)
 }
 
+
+xelatexGrob <- function(tex,
+                        x=0.5, y=0.5, default.units="npc",
+                        hjust="centre", vjust="centre",
+                        fontLib=NULL,
+                        packages=NULL,
+                        tinytex=getOption("latex.tinytex"),
+                        ...,
+                        name="XeLaTeXgrob",
+                        gp=gpar(),
+                        vp=NULL) {
+    if (!xetexAvailable())
+        stop("XeTeX not available")
+    engine <- getEngine("xetex")
+    lib <- resolveFontLib(fontLib)
+    pkgs <- resolvePackages(packages)
+    texDoc <- author(tex, engine=engine, packages=pkgs)
+    dviFile <- typeset(texDoc, engine=engine, tinytex=tinytex)
+    dvi <- readDVI(dviFile)
+    dviGrob(dvi,
+            x=x, y=y, default.units=default.units,
+            hjust=hjust, vjust=vjust,
+            engine=engine, package=pkgs, fontLib=lib,
+            ...,
+            name=name, gp=gp, vp=vp)
+}
+
+grid.xelatex <- function(...) {
+    grid.draw(latexGrob(...))
+}

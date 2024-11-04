@@ -21,6 +21,7 @@ jobs:
           if [ ${{ runner.os }} = Windows ]; then
             echo "R_LIBS_USER=$(pwd)\Rlib" >> $GITHUB_ENV
           fi
+        shell: bash
       - name: Install tinytex
         uses: s-u/R-actions/tinytex@v1
       - name: Checkout {dvi}

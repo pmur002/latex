@@ -21,10 +21,15 @@ resolveFontLib.default <- function(lib) {
 }
 
 resolveFontLib.NULL <- function(lib) {
-    warning(paste("No Font Library specified;",
-                  "falling back to null Font Library",
-                  "(positioning of glyphs will be compromised)"))
-    nullFontLib
+    defaultLib <- getOption("latex.fontLib")
+    if (is.null(defaultLib) || !inherits(defaultLib, "FontLibrary")) {
+        warning(paste("No (valid) Font Library specified;",
+                      "falling back to null Font Library",
+                      "(positioning of glyphs will be compromised)"))
+        nullFontLib
+    } else {
+        defaultLib
+    }
 }
 
 resolveFontLib.FontLibrary <- function(lib) {

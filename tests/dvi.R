@@ -47,10 +47,6 @@ if (latex:::canTypeset()) {
             TTX <- FontLibrary(ttx::ttxGlyphWidth,
                                ttx::ttxGlyphHeight,
                                ttx::ttxGlyphBounds)
-            cacheDir <- file.path(getwd(), "FontCache")
-            if (!dir.exists(cacheDir))
-                dir.create(cacheDir)
-            options(ttx.cacheDir=cacheDir)
         }
         ## No warnings!
         grid.newpage()

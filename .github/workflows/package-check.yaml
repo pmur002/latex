@@ -63,10 +63,12 @@ jobs:
       - name: explore
         if: failure()
         run: |
-          echo $GITHUB_WORKSPACE
-          ls $GITHUB_WORKSPACE
-          echo TOP_DIR=$(cd $GITHUB_WORKSPACE/.. && pwd) >> $GITHUB_ENV
-          ls $TOP_DIR
+          if [ "${{ runner.os }}" = Windows ] ; then
+            TDIR=`cygpath -m $GITHUB_WORKSPACE/..`
+            echo "TOP_DIR=$TDIR" >> $GITHUB_ENV
+            ls $TOP_DIR
+          fi
+        shell: bash
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@v4

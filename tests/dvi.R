@@ -38,7 +38,10 @@ if (latex:::canTypeset()) {
     dvi <- readDVI(dviFile)
     grid.newpage()
     tools::assertWarning(grid.dvi(dvi))
+}
 
+
+if (latex:::canTypeset()) {
     if (require("ttx")) {
         if (!exists("TTX")) {
             TTX <- FontLibrary(ttx::ttxGlyphWidth,
@@ -48,7 +51,16 @@ if (latex:::canTypeset()) {
         ## No warnings!
         grid.newpage()
         grid.dvi(dvi, fontLib=TTX)
+    }
+}
 
+if (latex:::canTypeset()) {
+    if (require("ttx")) {
+        if (!exists("TTX")) {
+            TTX <- FontLibrary(ttx::ttxGlyphWidth,
+                               ttx::ttxGlyphHeight,
+                               ttx::ttxGlyphBounds)
+        }
         if (latex:::xetexAvailable()) {
             ## Explicit render engine that does NOT match typeset() engine
             tex <- author("This is a test: $x - \\mu$", engine="xetex")

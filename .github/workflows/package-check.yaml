@@ -72,8 +72,8 @@ jobs:
         shell: bash
       - name: Upload check results
         if: failure()
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }}-r${{ matrix.r-version }}-results
-          path: ${{ env.TOP_DIR }}/latex.Rcheck
+          path: ${{ env.TOP_DIR }}/latex.Rcheck/
 

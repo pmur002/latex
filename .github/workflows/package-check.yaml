@@ -60,17 +60,10 @@ jobs:
             fonttools
             fontforge
           check-flags: --as-cran
-      - name: explore
-        if: failure()
-        run: |
-          ls
-          ls ..
-          ls $LIB_DIR
-          ls $LIB_DIR/..
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@master
         with:
           name: ${{ runner.os }}-r${{ matrix.r-version }}-results
-          path: $LIB_DIR/../latex.Rcheck
+          path: tests
 

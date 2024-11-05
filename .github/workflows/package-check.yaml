@@ -64,16 +64,13 @@ jobs:
       - name: explore
         if: failure()
         run: |
-          echo $BLDIR
-          echo $LIB_DIR
-          echo $TOP_DIR
-          ls $BLDIR
-          ls $TOP_DIR
+          echo $GITHUB_WORKSPACE
+          ls $GITHUB_WORKSPACE
         shell: bash
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }}-r${{ matrix.r-version }}-results
-          path: ${{ env.TOP_DIR }}/latex.Rcheck/
+          path: ${{ github.workspace }}/latex.Rcheck/
 

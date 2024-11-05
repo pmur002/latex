@@ -47,6 +47,10 @@ if (latex:::canTypeset()) {
             TTX <- FontLibrary(ttx::ttxGlyphWidth,
                                ttx::ttxGlyphHeight,
                                ttx::ttxGlyphBounds)
+            cacheDir <- file.path(getwd(), "FontCache")
+            if (!dir.exists(cacheDir))
+                dir.create(cacheDir)
+            options(ttx.cacheDir=cacheDir)
         }
         ## No warnings!
         grid.newpage()
@@ -55,20 +59,13 @@ if (latex:::canTypeset()) {
 }
 
 if (latex:::canTypeset()) {
-    if (require("ttx")) {
-        if (!exists("TTX")) {
-            TTX <- FontLibrary(ttx::ttxGlyphWidth,
-                               ttx::ttxGlyphHeight,
-                               ttx::ttxGlyphBounds)
-        }
-        if (latex:::xetexAvailable()) {
-            ## Explicit render engine that does NOT match typeset() engine
-            tex <- author("This is a test: $x - \\mu$", engine="xetex")
-            dviFile <- typeset(tex, engine="xetex")
-            dvi <- readDVI(dviFile)
-            grid.newpage()
+    if (latex:::xetexAvailable()) {
+        ## Explicit render engine that does NOT match typeset() engine
+        tex <- author("This is a test: $x - \\mu$", engine="xetex")
+        dviFile <- typeset(tex, engine="xetex")
+        dvi <- readDVI(dviFile)
+        grid.newpage()
             tools::assertWarning(grid.dvi(dvi, engine="null", fontLib=TTX))
-        }
     }
 }
 

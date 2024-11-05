@@ -63,11 +63,13 @@ jobs:
       - name: explore
         if: failure()
         run: |
-          ls -R $BLDIR
+          echo $BLDIR
+          echo $LIB_DIR
+          ls -R $BLDIR/..
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@master
         with:
           name: ${{ runner.os }}-r${{ matrix.r-version }}-results
-          path: $BLDIR/latex.Rcheck
+          path: $LIB_DIR/latex.Rcheck
 

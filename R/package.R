@@ -70,31 +70,31 @@ packageSuffix.list <- function(x) {
 
 ################################################################################
 ## Package initialisation
-packageInit <- function(pkgs) {
+packageInit <- function(pkgs, state) {
     lapply(pkgs,
            function(x) {
                if (!is.null(x$init))
-                   x$init()
+                   x$init(state)
            })
 }
 
 ################################################################################
 ## Call package specials
-packageSpecial <- function(pkgs, special) {
+packageSpecial <- function(pkgs, special, state) {
     lapply(pkgs,
            function(x) {
                if (!is.null(x$special))
-                   x$special(special)
+                   x$special(special, state)
            })
 }
 
 ################################################################################
 ## Call package finals
-packageFinal <- function(pkgs) {
+packageFinal <- function(pkgs, state) {
     lapply(pkgs,
            function(x) {
                if (!is.null(x$final))
-                   x$final()
+                   x$final(state)
            })
 }
 

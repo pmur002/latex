@@ -255,7 +255,7 @@ op_fnt <- function(op, state) {
 op_special <- function(op, state) {
     specialString <- paste(blockValue(op$blocks$op.opparams.string),
                            collapse="")
-    packageSpecial(TeXget("packages", state), specialString)
+    packageSpecial(TeXget("packages", state), specialString, state)
 }
 
 ## 243..246
@@ -278,13 +278,13 @@ op_pre <- function(op, state) {
     comment <- paste(blockValue(op$blocks$op.opparams.comment.string),
                      collapse="")
     ## Initialise packages
-    packageInit(TeXget("packages", state))
+    packageInit(TeXget("packages", state), state)
 }
 
 ## 248
 ## post
 op_post <- function(op, state) {
-    packageFinal(TeXget("pkgs", state))    
+    packageFinal(TeXget("pkgs", state), state)
 }
 
 ## 249

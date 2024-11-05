@@ -8,7 +8,9 @@ importFrom("grDevices",
            "glyphFontList",
            "glyphHeight",
            "glyphInfo",
-           "glyphWidth")
+           "glyphWidth",
+           "gray",
+           "rgb")
 
 import("grid")
 
@@ -26,7 +28,7 @@ export("TeXstate", "TeXget", "TeXmget", "TeXset",
        "FontLibrary",
        
        "LaTeXpackage", "registerPackage",
-       "fontspecPackage",
+       "fontspecPackage", "xcolorPackage",
        
        "grid.dvi", "dviGrob",
 

@@ -25,6 +25,7 @@ registerEngine(nullEngine)
     }
     ## Define and register packages
     registerPackage(fontspecPackage())
+    registerPackage(xcolorPackage())
     options(latex.quiet=TRUE)
 }
 

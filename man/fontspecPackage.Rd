@@ -1,5 +1,6 @@
-\name{fontspecPackage}
+\name{Predefined Packages}
 \alias{fontspecPackage}
+\alias{xcolorPackage}
 \title{
   LaTeX Package fontspec.
 }
@@ -8,14 +9,16 @@
 }
 \usage{
 fontspecPackage(font=NULL, name=font)
+xcolorPackage()
 }
 \arguments{
   \item{font}{The name of a font to use as the main font.  See details.}
   \item{name}{The name of the resulting package.}
 }
 \details{
-  A default \code{"fontspec"} package is available by default,
-  which adds a preamble to use the fontspec package.
+  An \code{"xcolor"} package is available for setting colours.
+  
+  A \code{"fontspec"} package is available for selecting fonts.
   
   This function provides some convenience for also setting the main
   font to be used.  The \code{name} should be the common name of
@@ -26,7 +29,7 @@ fontspecPackage(font=NULL, name=font)
   \code{\link{author}} and \code{\link{grid.latex}} (see the Examples).
 }
 \value{
-  \code{fontspecPackage()} returns a \code{"LaTeXpackage"} object.
+  These functions return \code{"LaTeXpackage"} objects.
 }
 \examples{
 cat(author("test", packages="fontspec"), sep="\n")

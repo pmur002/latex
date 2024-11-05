@@ -66,6 +66,7 @@ jobs:
           echo $BLDIR
           echo $LIB_DIR
           ls -R $BLDIR/..
+        shell: bash
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@master

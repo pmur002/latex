@@ -6,7 +6,7 @@ library(latex)
 ## Make debugging information available
 options(ttx.quiet=FALSE, tinytex.verbose=TRUE, latex.quiet=FALSE)
 
-## Existing DVI (so engine unknown)
+## Existing DVI (so engine unknown AND packages unknown)
 dviXeTeX <- readDVI(system.file("DVI", "test-xetex.xdv", package="dvi"))
 
 ## Font file paths based on my machine
@@ -34,7 +34,7 @@ if (latex:::canTypeset()) {
     ## Fall back to dummy fontLib
     ## (glyph positioning is compromised)
     tex <- author("This is a test: $x - \\mu$")
-    dviFile <- typeset(tex)
+    dviFile <- typeset(tex, texFile="test.tex")
     dvi <- readDVI(dviFile)
     grid.newpage()
     tools::assertWarning(grid.dvi(dvi))

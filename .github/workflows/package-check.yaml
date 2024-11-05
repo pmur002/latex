@@ -75,5 +75,5 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: ${{ runner.os }}-r${{ matrix.r-version }}-results
-          path: $TOP_DIR/latex.Rcheck
+          path: ${{ env.TOP_DIR }}/latex.Rcheck
 

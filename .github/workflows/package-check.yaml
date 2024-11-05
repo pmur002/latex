@@ -20,7 +20,8 @@ jobs:
         uses: s-u/R-actions/tinytex@v1
       - name: Set up common R library (try to match s-u/R-actions/pkg-check@v2)
         run: |
-          echo LIB_DIR=$(pwd)/../Rlib >> $GITHUB_ENV
+          echo LIB_DIR=$(cd .. && pwd)/Rlib >> $GITHUB_ENV
+          echo TOP_DIR=$(cd .. && pwd) >> $GITHUB_ENV
         shell: bash
       - name: Checkout {dvi}
         uses: actions/checkout@v4
@@ -65,12 +66,14 @@ jobs:
         run: |
           echo $BLDIR
           echo $LIB_DIR
-          ls -R $BLDIR/..
+          echo $TOP_DIR
+          ls $BLDIR
+          ls $TOP_DIR
         shell: bash
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@master
         with:
           name: ${{ runner.os }}-r${{ matrix.r-version }}-results
-          path: $LIB_DIR/latex.Rcheck
+          path: $TOP_DIR/latex.Rcheck
 

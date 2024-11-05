@@ -64,12 +64,13 @@ jobs:
         if: failure()
         run: |
           ls
-          ls latex
+          ls ..
           ls $LIB_DIR
+          ls $LIB_DIR/..
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@master
         with:
           name: ${{ runner.os }}-r${{ matrix.r-version }}-results
-          path: $LIB_DIR/latex.Rcheck
+          path: $LIB_DIR/../latex.Rcheck
 

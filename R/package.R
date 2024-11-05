@@ -159,3 +159,55 @@ resolvePackages.LaTeXpackage <- function(x, ...) {
 resolvePackages.list <- function(x, ...) {
     lapply(x, resolvePackage)
 }
+
+## Check for package conflict between explicit user-specification ('x')
+## and packages from typeset DVI ('pkgNames'), if any
+checkPackages <- function(x, pkgNames, ...) {
+    UseMethod("checkPackages")
+}
+
+## User says NULL so take 'pkgNames', if any
+checkPackages.NULL <- function(x, pkgNames, ...) {
+    if (!is.null(pkgNames) && nchar(pkgNames)) {
+        resolvePackages(pkgNames)
+    } else {
+        NULL
+    }
+}
+
+checkPkgMatch <- function(x, pkgNames) {
+    if (!identical(x, pkgNames)) {
+        if (any(!x %in% pkgNames)) {
+            warning(paste0("Explicit packages ",
+                           "(", paste(x[!x %in% pkgNames], collapse=", "), ") ",
+                           "not in DVI"))
+        }
+        if (any(!pkgNames %in% x)) {
+            warning(paste0("DVI packages ",
+                           "(", paste(pkgNames[!pkgNames %in% x],
+                                      collapse=", "), ") ",
+                           "not in explicit packages"))            
+        }
+    }
+}
+
+## User says something, so take 'x', but warn if that does not match 'pkgNames'
+checkPackages.character <- function(x, pkgNames, ...) {
+    checkPkgMatch(x, pkgNames)
+    x
+}
+
+## User says one package so take that, but warn if does not match 'pkgNames'
+checkPackages.LaTeXpackage <- function(x, pkgNames, ...) {
+    x <- x$name
+    checkPkgMatch(x, pkgNames)
+    x
+}
+
+## User says multiple packages, so take those, but warn if does not match
+checkPackages.list <- function(x, pkgNames, ...) {
+    x <- resolvePackages(x)
+    xNames <- sapply(x, function(y) y$name)
+    checkPackages(xNames, pkgNames)
+    x
+}

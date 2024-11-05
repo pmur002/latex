@@ -73,6 +73,7 @@ dviGrob.DVI <- function(dvi,
     eng <- resolveEngine(dvi, engine)
     lib <- resolveFontLib(fontLib)
     pkgs <- resolvePackages(packages)
+    pkgs <- checkPackages(pkgs, typesetPackages(dvi))
     gTree(dvi=dvi, x=x, y=y, hjust=hjust, vjust=vjust,
           engine=eng, fontLib=lib, packages=pkgs,
           gp=gp, name=name, vp=vp,
@@ -80,9 +81,10 @@ dviGrob.DVI <- function(dvi,
 }
 
 ## Resolve engine from typeset() engine
-dviGrob.DVIfile <- function(dvi, ..., engine=NULL) {
+dviGrob.DVIfile <- function(dvi, ..., engine=NULL, packages=NULL) {
     eng <- resolveEngine(dvi, engine)
-    dviGrob(readDVI(dvi), ..., engine=eng)
+    pkgs <- checkPackages(packages, typesetPackages(dvi))
+    dviGrob(readDVI(dvi), ..., engine=eng, packages=pkgs)
 }
 
 dviGrob.character <- function(dvi, ...) {

@@ -1,13 +1,13 @@
 
 ## Generate LaTeX file from TeX string
 
-engineComment <- function(engine) {
-    paste0("%% ", buildSignature(engine))
+comment <- function(engine, packages) {
+    paste0("%% ", buildSignature(engine, packages))
 }
 
 ## Was the TeX code authored by this package?
 commentLine <- function(tex) {
-    grep(engineCommentHeader, tex, fixed=TRUE, value=TRUE)
+    grep(commentHeader, tex, fixed=TRUE, value=TRUE)
 }
 
 author <- function(tex,
@@ -15,8 +15,13 @@ author <- function(tex,
                    packages=NULL) {
     engine <- getEngine(engine)
     pkgs <- resolvePackages(packages)
+    if (length(pkgs)) {
+        pkgNames <- paste(sapply(pkgs, function(x) x$name), collapse=", ")
+    } else {
+        pkgNames <- ""
+    }
     texDoc <- c(## Record engine used for authoring
-                engineComment(engine),
+                comment(engine, pkgNames),
                 "\\documentclass{standalone}",
                 engine$preamble,
                 packagePreamble(pkgs),
@@ -26,6 +31,7 @@ author <- function(tex,
                 packageSuffix(pkgs),
                 "\\end{document}")
     attr(texDoc, "engine") <- engine
+    attr(texDoc, "packages") <- pkgNames
     class(texDoc) <- "TeXdocument"
     texDoc
 }
@@ -38,10 +44,8 @@ authorEngine <- function(tex) {
 authorEngine.character <- function(tex) {
     commentLine <- commentLine(tex)
     if (length(commentLine)) {
-        sig <- splitSignature(tex[commentLine])
-        engineName <- gsub(engineCommentName, "", sig[2], fixed=TRUE)
-        engineVersion <- gsub(engineCommentVersion, "", sig[3], fixed=TRUE)
-        getEngine(engineName)
+        engine <- signatureEngine(commentLine)
+        getEngine(engine$name)
     } else {
         NULL
     }
@@ -49,6 +53,24 @@ authorEngine.character <- function(tex) {
 
 authorEngine.TeXdocument <- function(tex) {
     attr(tex, "engine")
+}
+
+authorPackages <- function(tex) {
+    UseMethod("authorPackages")
+}
+
+authorPackages.character <- function(tex) {
+    commentLine <- commentLine(tex)
+    if (length(commentLine)) {
+        signaturePackages(commentLine)
+    } else {
+        ## FIXME:  could look for \usepackage{} commands ?
+        NULL
+    }
+}
+
+authorPackages.TeXdocument <- function(tex) {
+    attr(tex, "packages")
 }
 
 print.TeXdocument <- function(x, ...) {

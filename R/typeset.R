@@ -12,7 +12,7 @@ typeset <- function(tex,
     UseMethod("typeset")
 }
 
-latex <- function(file, dir, engine, tinytex, sig=TRUE) {
+latex <- function(file, dir, engine, packages, tinytex, sig=TRUE) {
     engine <- getEngine(engine)
     if (!canTypeset(engine)) {
         stop(paste0("The ", engine$name,
@@ -22,7 +22,7 @@ latex <- function(file, dir, engine, tinytex, sig=TRUE) {
         stop("{tinytex} requested, but not available")
     }
     if (sig) {
-        sig <- buildSignature(engine)
+        sig <- buildSignature(engine, packages)
         options <- c(engine$options,
                      paste0('--output-comment="', sig, '"'),
                      paste0("--output-directory=", dir))
@@ -57,14 +57,16 @@ typeset.TeXdocument <- function(tex,
                                 texFile=NULL,
                                 ...) {
     engine <- resolveEngine(tex, engine)
+    packages <- authorPackages(tex)
     if (is.null(texFile)) {
         texFile <- tempfile(fileext=".tex")
     }
     texDir <- dirname(texFile)
     dviFile <- paste0(gsub("[.]tex", "", texFile), engine$dviSuffix)
     writeLines(tex, texFile)
-    latex(texFile, texDir, engine, tinytex)
+    latex(texFile, texDir, engine, packages, tinytex)
     attr(dviFile, "engine") <- engine
+    attr(dviFile, "packages") <- packages
     class(dviFile) <- "DVIfile"
     invisible(dviFile)    
 }
@@ -78,14 +80,16 @@ typeset.character <- function(tex,
                               sig=FALSE, 
                               ...) {
     engine <- resolveEngine(tex, engine)
+    packages <- authorPackages(tex)
     if (is.null(texFile)) {
         texFile <- tempfile(fileext=".tex")
     }
     texDir <- dirname(texFile)
     dviFile <- paste0(gsub("[.]tex", "", texFile), engine$dviSuffix)
     writeLines(tex, texFile)
-    latex(texFile, texDir, engine, tinytex, sig=sig)
+    latex(texFile, texDir, engine, packages, tinytex, sig=sig)
     attr(dviFile, "engine") <- engine
+    attr(dviFile, "packages") <- packages
     class(dviFile) <- "DVIfile"
     invisible(dviFile)
 }
@@ -105,10 +109,8 @@ typesetEngine.DVI <- function(x) {
     if (length(commentLine)) {
         ## If latex::typeset() produced the DVI then engine should be
         ## in comment of DVI preamble
-        sig <- splitSignature(commentStr)
-        engineName <- gsub(engineCommentName, "", sig[2], fixed=TRUE)
-        engineVersion <- gsub(engineCommentVersion, "", sig[3], fixed=TRUE)
-        getEngine(engineName)
+        engine <- signatureEngine(commentLine)
+        getEngine(engine$name)
     } else {
         warning("Guessing typesetting engine from DVI pre op comment")
         ## Try to guess from DVI pre op comment
@@ -130,5 +132,28 @@ typesetEngine.DVI <- function(x) {
                            "falling back to null engine"))
             engines[["null"]]
         }
+    }    
+}
+
+typesetPackages <- function(x) {
+    UseMethod("typesetPackages")
+}
+
+typesetPackages.DVIfile <- function(x) {
+    attr(x, "packages")
+}
+
+typesetPackages.DVI <- function(x) {
+    commentStr <- commentString(x)
+    commentLine <- commentLine(commentStr)
+    if (length(commentLine)) {
+        ## If latex::typeset() produced the DVI then engine should be
+        ## in comment of DVI preamble
+        signaturePackages(commentLine)
+    } else {
+        ## FIXME: could guess from prefixes in DVI specials ?
+        warning(paste("No packages in DVI;",
+                      "possible package mismatch with rendering engine"))
+        NULL
     }    
 }

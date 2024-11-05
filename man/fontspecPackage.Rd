@@ -1,6 +1,7 @@
 \name{Predefined Packages}
 \alias{fontspecPackage}
 \alias{xcolorPackage}
+\alias{previewPackage}
 \title{
   LaTeX Package fontspec.
 }
@@ -10,12 +11,16 @@
 \usage{
 fontspecPackage(font=NULL, name=font)
 xcolorPackage()
+previewPackage()
 }
 \arguments{
   \item{font}{The name of a font to use as the main font.  See details.}
   \item{name}{The name of the resulting package.}
 }
 \details{
+  A \code{"preview"} package is available for setting a baseline
+  anchor.
+  
   An \code{"xcolor"} package is available for setting colours.
   
   A \code{"fontspec"} package is available for selecting fonts.

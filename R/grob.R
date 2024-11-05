@@ -34,7 +34,7 @@ objToGrob.LaTeXglyphObj <- function(obj, x, y, hjust, vjust, ..., state) {
                                     "bigpts", valueOnly=TRUE))
         vAnchorLabels <- c(vAnchorLabels, "baseline")
     }
-    anchors <- get("vAnchors")
+    anchors <- TeXget("vAnchors", state)
     if (!is.null(anchors)) {
         vAnchorValues <- c(vAnchorValues, anchors$value)
         vAnchorLabels <- c(vAnchorLabels, anchors$label)
@@ -48,7 +48,7 @@ objToGrob.LaTeXglyphObj <- function(obj, x, y, hjust, vjust, ..., state) {
                        left, right, (left + right)/2)
     hAnchorLabels <- c("left", "right", "centre",
                        "bbleft", "bbright", "bbcentre")
-    anchors <- get("hAnchors")
+    anchors <- TeXget("hAnchors", state)
     if (!is.null(anchors)) {
         hAnchorValues <- c(hAnchorValues, anchors$value)
         hAnchorLabels <- c(hAnchorLabels, anchors$label)

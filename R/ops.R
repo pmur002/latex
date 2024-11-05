@@ -17,15 +17,15 @@ op_set <- op_ignore
 setRule <- function(op, put=FALSE, state) {
     h <- TeXget("h", state)
     v <- TeXget("v", state)
-    updateBBoxHoriz(h)
-    updateBBoxVert(v)
+    updateBBoxHoriz(h, state)
+    updateBBoxVert(v, state)
     a <- blockValue(op$blocks$op.opparams.a)
     b <- blockValue(op$blocks$op.opparams.b)
-    updateBBoxHoriz(h + b)
-    updateBBoxVert(v - a)
+    updateBBoxHoriz(h + b, state)
+    updateBBoxVert(v - a, state)
     ## Need to create glyph object if there have been any glyphs prior to this
-    addGlyphObjs()
-    addRuleObj(a, b)
+    addGlyphObjs(state)
+    addRuleObj(a, b, state)
     if (!put)
         TeXset("h", TeXget("h", state) + b, state)
 }
@@ -284,7 +284,7 @@ op_pre <- function(op, state) {
 ## 248
 ## post
 op_post <- function(op, state) {
-    packageFinal(TeXget("pkgs", state), state)
+    packageFinal(TeXget("packages", state), state)
 }
 
 ## 249

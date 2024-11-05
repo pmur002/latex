@@ -28,7 +28,7 @@ export("TeXstate", "TeXget", "TeXmget", "TeXset",
        "FontLibrary",
        
        "LaTeXpackage", "registerPackage",
-       "fontspecPackage", "xcolorPackage",
+       "fontspecPackage", "xcolorPackage", "previewPackage",
        
        "grid.dvi", "dviGrob",
 

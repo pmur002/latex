@@ -21,7 +21,6 @@ jobs:
       - name: Set up common R library (try to match s-u/R-actions/pkg-check@v2)
         run: |
           echo LIB_DIR=$(cd .. && pwd)/Rlib >> $GITHUB_ENV
-          echo TOP_DIR=$(cd .. && pwd) >> $GITHUB_ENV
         shell: bash
       - name: Checkout {dvi}
         uses: actions/checkout@v4
@@ -66,11 +65,12 @@ jobs:
         run: |
           echo $GITHUB_WORKSPACE
           ls $GITHUB_WORKSPACE
-        shell: bash
+          echo TOP_DIR=$(cd $GITHUB_WORKSPACE/.. && pwd) >> $GITHUB_ENV
+          ls $TOP_DIR
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }}-r${{ matrix.r-version }}-results
-          path: ${{ github.workspace }}/latex.Rcheck/
+          path: ${{ env.TOP_DIR }}/latex.Rcheck/
 

@@ -25,10 +25,10 @@ latex <- function(file, dir, engine, packages, tinytex, sig=TRUE) {
         sig <- buildSignature(engine, packages)
         options <- c(engine$options,
                      paste0('--output-comment="', sig, '"'),
-                     paste0("--output-directory=", dir))
+                     paste0("--output-directory=", shQuote(dir)))
     } else {
         options <- c(engine$options,
-                     paste0("--output-directory=", dir))
+                     paste0("--output-directory=", shQuote(dir)))
     }
     if (tinytex) {
         ## Have to run TWICE, once to generate .pdf (that we do not need)
@@ -37,15 +37,15 @@ latex <- function(file, dir, engine, packages, tinytex, sig=TRUE) {
         ## produce .dvi without error if engine="latex" (hard coded)
         ## (it will still generate .dvi with other engines, it will
         ##  just error out)
-        tinytex::latexmk(file,
+        tinytex::latexmk(shQuote(file),
                          engine=engine$command)
-        try(tinytex::latexmk(file,
+        try(tinytex::latexmk(shQuote(file),
                              engine=engine$command,
                              engine_args=options),
             silent=TRUE)
     } else {
         system(paste0(engine$command, " ",
-                      paste(options, collapse=" "), " ", file),
+                      paste(options, collapse=" "), " ", shQuote(file)),
                ignore.stdout=getOption("latex.quiet"))
     }
 }

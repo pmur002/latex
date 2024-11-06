@@ -60,17 +60,16 @@ jobs:
             fonttools
             fontforge
           check-flags: --as-cran
-      - name: explore
+      - name: Artifact set up
         if: failure()
         run: |
           if [ "${{ runner.os }}" = Windows ] ; then
             TDIR=`cygpath -m $GITHUB_WORKSPACE/..`
             echo "TOP_DIR=$TDIR" >> $GITHUB_ENV
-            ls $TOP_DIR
           fi
         shell: bash
       - name: Upload check results
-        if: failure()
+        if: ${{ failure() && ${{ runner.os }} == Windows }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }}-r${{ matrix.r-version }}-results

@@ -37,9 +37,9 @@ latex <- function(file, dir, engine, packages, tinytex, sig=TRUE) {
         ## produce .dvi without error if engine="latex" (hard coded)
         ## (it will still generate .dvi with other engines, it will
         ##  just error out)
-        tinytex::latexmk(shQuote(file),
+        tinytex::latexmk(file,
                          engine=engine$command)
-        try(tinytex::latexmk(shQuote(file),
+        try(tinytex::latexmk(file,
                              engine=engine$command,
                              engine_args=options),
             silent=TRUE)

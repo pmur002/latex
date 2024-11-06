@@ -72,6 +72,6 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ runner.os }}-r${{ matrix.r-version }}-results
+          name: ${{ runner.os }}-r-${{ matrix.r-version }}-results
           path: ${{ env.TOP_DIR }}/latex.Rcheck/
 

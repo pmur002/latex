@@ -43,6 +43,13 @@ if (latex:::canTypeset()) {
 
 if (latex:::canTypeset()) {
     if (require("ttx")) {
+        ## For testing on github windows runners, avoid tmp dir
+        ## for files that 'ttx' will run on
+        cacheDir <- file.path(getwd(), "TTXfonts")
+        if (!dir.exists(cacheDir)) {
+            dir.create(cacheDir)
+        }
+        options(ttx.cacheDir=cacheDir)       
         if (!exists("TTX")) {
             TTX <- FontLibrary(ttx::ttxGlyphWidth,
                                ttx::ttxGlyphHeight,
@@ -58,7 +65,7 @@ if (latex:::canTypeset()) {
     if (latex:::xetexAvailable()) {
         ## Explicit render engine that does NOT match typeset() engine
         tex <- author("This is a test: $x - \\mu$", engine="xetex")
-        dviFile <- typeset(tex, engine="xetex")
+        dviFile <- typeset(tex, engine="xetex", texFile="test.tex")
         dvi <- readDVI(dviFile)
         grid.newpage()
             tools::assertWarning(grid.dvi(dvi, engine="null", fontLib=TTX))

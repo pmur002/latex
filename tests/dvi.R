@@ -51,15 +51,6 @@ if (latex:::canTypeset()) {
 if (latex:::canTypeset()) {
     if (require("ttx")) {
         options(ttx.quiet=FALSE)
-        if (.Platform$OS.type == "windows") {
-            ## For testing on github Windows runners, avoid tmp dir
-            ## for files that 'ttx' will run on
-            cacheDir <- file.path(getwd(), "TTXfonts")
-            if (!dir.exists(cacheDir)) {
-                dir.create(cacheDir)
-            }
-            options(ttx.cacheDir=cacheDir)
-        }
         if (!exists("TTX")) {
             TTX <- FontLibrary(ttx::ttxGlyphWidth,
                                ttx::ttxGlyphHeight,

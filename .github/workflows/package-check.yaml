@@ -69,7 +69,8 @@ jobs:
           fi
         shell: bash
       - name: Upload check results
-        if: ${{ failure() && ${{ runner.os }} == Windows }}
+        if: |
+          failure() && ${{ runner.os }} == Windows
         uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }}-r${{ matrix.r-version }}-results

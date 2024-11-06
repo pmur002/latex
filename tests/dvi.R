@@ -4,7 +4,7 @@ library(dvi)
 library(latex)
 
 ## Make debugging information available
-options(ttx.quiet=FALSE, tinytex.verbose=TRUE, latex.quiet=FALSE)
+options(tinytex.verbose=TRUE, latex.quiet=FALSE)
 
 ## Existing DVI (so engine unknown AND packages unknown)
 dviXeTeX <- readDVI(system.file("DVI", "test-xetex.xdv", package="dvi"))
@@ -18,6 +18,7 @@ if (Sys.getenv("USER") == "pmur002") {
     tools::assertWarning(grid.dvi(dviXeTeX))
 
     if (require("ttx")) {
+        options(ttx.quiet=FALSE)
         ## Glyph positioning should be fine
         TTX <- FontLibrary(ttx::ttxGlyphWidth,
                            ttx::ttxGlyphHeight,

@@ -68,8 +68,10 @@ jobs:
         run: |
           if [ ${{ runner.os }} = Windows ] ; then
             TDIR=`cygpath -m $GITHUB_WORKSPACE/..`
-            echo "TOP_DIR=$TDIR" >> $GITHUB_ENV
+          else
+            TDIR=$($GITHUB_WORKSPACE/..)
           fi
+          echo "TOP_DIR=$TDIR" >> $GITHUB_ENV
         shell: bash
       - name: Upload check results
         if: failure()

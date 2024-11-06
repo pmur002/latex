@@ -1,0 +1,23 @@
+
++ Watch out for ...
+
+  + Where package dependencies are installed ({dvi} and {ttx}) ...
+  
+    The s-u/R-actions/pkg-check action may not find them on some 
+    platforms (e.g., macOS)
+
+  + Paths on Windows runners ...
+
+    Avoid tempdir() because latex calls choke on the paths
+    => set 'texFile' in calls to, e.g., typeset()
+
+    Sometimes also need cygwin paths rather than just 'pwd' to get
+    D:/path/ rather than /d/path/.
+
+    Main problem appears to be '~' char in paths 
+    (from abbreviated Windows paths)
+
+  + Specification of paths from env vars in step inputs.
+
+    Use ${{ env.VAR }} rather than $VAR 
+    (just as documented really)

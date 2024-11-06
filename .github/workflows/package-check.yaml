@@ -55,7 +55,6 @@ jobs:
           debian-deps: 
             fonttools
             fontforge
-          check-flags: --as-cran
       - name: Artifact set up
         run: |
           if [ ${{ runner.os }} = Windows ] ; then

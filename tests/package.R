@@ -8,6 +8,7 @@ options(tinytex.verbose=TRUE, latex.quiet=FALSE)
 fontpath <- system.file("fonts", "Montserrat", "static", package="grDevices")
 
 tex <- paste0("\\setmainfont{Montserrat-Medium.ttf}",
+              ## On Windows, the path may contain ~
               "[Path=", gsub("~", "\\\\string~", fontpath), "/]\n",
               "This is a test")
 

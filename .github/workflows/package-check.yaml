@@ -29,8 +29,8 @@ jobs:
           path: dvi
       - name: Install {dvi} 
         run: |
-          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("hexView", lib=Sys.getenv("$R_LIB_DIR"), repos="https://cloud.r-project.org", dependencies=TRUE)'
-          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("dvi", lib=Sys.getenv("$R_LIB_DIR"), type="source", repos=NULL)'
+          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("hexView", lib=Sys.getenv("$R_LIBS"), repos="https://cloud.r-project.org", dependencies=TRUE)'
+          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("dvi", lib=Sys.getenv("$R_LIBS"), type="source", repos=NULL)'
         shell: bash
       - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'
@@ -51,8 +51,8 @@ jobs:
           path: ttx
       - name: Install {ttx}
         run: |
-          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("xml2", lib=Sys.getenv("$R_LIB_DIR"), repos="https://cloud.r-project.org", dependencies=TRUE)'
-          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("ttx", lib=Sys.getenv("$R_LIB_DIR"), type="source", repos=NULL)'
+          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("xml2", lib=Sys.getenv("$R_LIBS"), repos="https://cloud.r-project.org", dependencies=TRUE)'
+          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("ttx", lib=Sys.getenv("$R_LIBS"), type="source", repos=NULL)'
         shell: bash
       - uses: s-u/R-actions/pkg-check@v2
         with:

@@ -34,7 +34,13 @@ if (latex:::canTypeset()) {
     ## Fall back to dummy fontLib
     ## (glyph positioning is compromised)
     tex <- author("This is a test: $x - \\mu$")
-    dviFile <- typeset(tex, texFile="test.tex")
+    if (.Platform$OS.type == "windows") {
+        ## For testing on github Windows runners, avoid tmp dir
+        ## for files that a TeX engine will run on
+        dviFile <- typeset(tex, texFile="test.tex")
+    } else {
+        dviFile <- typeset(tex)
+    }
     dvi <- readDVI(dviFile)
     grid.newpage()
     tools::assertWarning(grid.dvi(dvi))
@@ -43,13 +49,15 @@ if (latex:::canTypeset()) {
 
 if (latex:::canTypeset()) {
     if (require("ttx")) {
-        ## For testing on github windows runners, avoid tmp dir
-        ## for files that 'ttx' will run on
-        cacheDir <- file.path(getwd(), "TTXfonts")
-        if (!dir.exists(cacheDir)) {
-            dir.create(cacheDir)
+        if (.Platform$OS.type == "windows") {
+            ## For testing on github Windows runners, avoid tmp dir
+            ## for files that 'ttx' will run on
+            cacheDir <- file.path(getwd(), "TTXfonts")
+            if (!dir.exists(cacheDir)) {
+                dir.create(cacheDir)
+            }
+            options(ttx.cacheDir=cacheDir)
         }
-        options(ttx.cacheDir=cacheDir)       
         if (!exists("TTX")) {
             TTX <- FontLibrary(ttx::ttxGlyphWidth,
                                ttx::ttxGlyphHeight,

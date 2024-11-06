@@ -3,7 +3,7 @@ library(grid)
 library(latex)
 
 ## Make debugging information available
-options(ttx.quiet=FALSE, tinytex.verbose=TRUE, latex.quiet=FALSE)
+options(tinytex.verbose=TRUE, latex.quiet=FALSE)
 
 fontpath <- system.file("fonts", "Montserrat", "static", package="grDevices")
 
@@ -12,10 +12,18 @@ tex <- paste0("\\setmainfont{Montserrat-Medium.ttf}",
               "This is a test")
 
 if (latex:::canTypeset()) {
+    if (.Platform$OS.type == "windows") {
+        ## For testing on github Windows runners, avoid tmp dir
+        ## for files that a TeX engine will run on
+        texFile <- "test.tex"
+    } else {
+        texFile <- NULL
+    }
+
     ## Fall back to dummy fontLib
     ## (glyph positioning is compromised)
     grid.newpage()
-    grid.latex(tex, packages=fontspecPackage())
+    grid.latex(tex, packages=fontspecPackage(), texFile=texFile)
 
     if (require("ttx")) {
         ## Glyph positioning should be fine
@@ -23,7 +31,8 @@ if (latex:::canTypeset()) {
                            ttx::ttxGlyphHeight,
                            ttx::ttxGlyphBounds)
         grid.newpage()
-        grid.latex(tex, packages=fontspecPackage(), fontLib=TTX)
+        grid.latex(tex, packages=fontspecPackage(), fontLib=TTX,
+                   texFile=texFile)
     }
 }
         

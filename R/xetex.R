@@ -32,6 +32,7 @@ xelatexGrob <- function(tex,
                         fontLib=NULL,
                         packages=NULL,
                         tinytex=getOption("latex.tinytex"),
+                        texFile=NULL,
                         ...,
                         name="XeLaTeXgrob",
                         gp=gpar(),
@@ -42,7 +43,7 @@ xelatexGrob <- function(tex,
     lib <- resolveFontLib(fontLib)
     pkgs <- resolvePackages(packages)
     texDoc <- author(tex, engine=engine, packages=pkgs)
-    dviFile <- typeset(texDoc, engine=engine, tinytex=tinytex)
+    dviFile <- typeset(texDoc, engine=engine, tinytex=tinytex, texFile=texFile)
     dvi <- readDVI(dviFile)
     dviGrob(dvi,
             x=x, y=y, default.units=default.units,
@@ -53,5 +54,5 @@ xelatexGrob <- function(tex,
 }
 
 grid.xelatex <- function(...) {
-    grid.draw(latexGrob(...))
+    grid.draw(xelatexGrob(...))
 }

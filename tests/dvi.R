@@ -32,23 +32,23 @@ if (Sys.getenv("USER") == "pmur002") {
 
 ## Generate DVI
 if (latex:::canTypeset()) {
-    ## Fall back to dummy fontLib
-    ## (glyph positioning is compromised)
-    tex <- author("This is a test: $x - \\mu$")
+
     if (.Platform$OS.type == "windows") {
         ## For testing on github Windows runners, avoid tmp dir
         ## for files that a TeX engine will run on
-        dviFile <- typeset(tex, texFile="test.tex")
+        texFile <- "test.tex"
     } else {
-        dviFile <- typeset(tex)
+        texFile <- NULL
     }
+    
+    ## Fall back to dummy fontLib
+    ## (glyph positioning is compromised)
+    tex <- author("This is a test: $x - \\mu$")
+    dviFile <- typeset(tex, texFile=texFile)
     dvi <- readDVI(dviFile)
     grid.newpage()
     tools::assertWarning(grid.dvi(dvi))
-}
 
-
-if (latex:::canTypeset()) {
     if (require("ttx")) {
         options(ttx.quiet=FALSE)
         if (!exists("TTX")) {
@@ -60,13 +60,11 @@ if (latex:::canTypeset()) {
         grid.newpage()
         grid.dvi(dvi, fontLib=TTX)
     }
-}
 
-if (latex:::canTypeset()) {
     if (latex:::xetexAvailable()) {
         ## Explicit render engine that does NOT match typeset() engine
         tex <- author("This is a test: $x - \\mu$", engine="xetex")
-        dviFile <- typeset(tex, engine="xetex", texFile="test.tex")
+        dviFile <- typeset(tex, engine="xetex", texFile=texFile)
         dvi <- readDVI(dviFile)
         grid.newpage()
             tools::assertWarning(grid.dvi(dvi, engine="null", fontLib=TTX))

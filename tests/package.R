@@ -3,7 +3,7 @@ library(grid)
 library(latex)
 
 ## Make debugging information available
-options(ttx.quiet=FALSE, tinytex.verbose=TRUE, latex.quiet=FALSE)
+options(tinytex.verbose=TRUE, latex.quiet=FALSE)
 
 fontpath <- system.file("fonts", "Montserrat", "static", package="grDevices")
 
@@ -12,7 +12,17 @@ tex <- paste0("\\setmainfont{Montserrat-Medium.ttf}",
               "This is a test")
 
 if (latex:::canTypeset()) {
+
+    if (.Platform$OS.type == "windows") {
+        ## For testing on github Windows runners, avoid tmp dir
+        ## for files that a TeX engine will run on
+        texFile <- "test.tex"
+    } else {
+        texFile <- NULL
+    }
+    
     if (require("ttx")) {
+        options(ttx.quiet=FALSE)
         TTX <- FontLibrary(ttx::ttxGlyphWidth,
                            ttx::ttxGlyphHeight,
                            ttx::ttxGlyphBounds)
@@ -20,11 +30,11 @@ if (latex:::canTypeset()) {
         
         ## Package as LaTeXpackage object
         grid.newpage()
-        grid.latex(tex, packages=fontspecPackage())
+        grid.latex(tex, packages=fontspecPackage(), texFile=texFile)
 
         ## Package as package alias
         grid.newpage()
-        grid.latex(tex, packages="fontspec")
+        grid.latex(tex, packages="fontspec", texFile=texFile)
         
         ## TODO:
         ## Package in author, but not in render

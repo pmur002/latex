@@ -6,6 +6,7 @@ latexGrob <- function(tex,
                       fontLib=NULL,
                       packages=NULL,
                       tinytex=getOption("latex.tinytex"),
+                      texFile=NULL,
                       ...,
                       name="LaTeXgrob",
                       gp=gpar(),
@@ -14,7 +15,7 @@ latexGrob <- function(tex,
     lib <- resolveFontLib(fontLib)
     pkgs <- resolvePackages(packages)
     texDoc <- author(tex, engine=engine, packages=pkgs)
-    dviFile <- typeset(texDoc, engine=engine, tinytex=tinytex)
+    dviFile <- typeset(texDoc, engine=engine, tinytex=tinytex, texFile=texFile)
     dvi <- readDVI(dviFile)
     dviGrob(dvi,
             x=x, y=y, default.units=default.units,

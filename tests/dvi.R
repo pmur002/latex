@@ -36,7 +36,7 @@ if (latex:::canTypeset()) {
     if (.Platform$OS.type == "windows") {
         ## For testing on github Windows runners, avoid tmp dir
         ## for files that a TeX engine will run on
-        texFile <- "test.tex"
+        texFile <- "test-dvi.tex"
     } else {
         texFile <- NULL
     }

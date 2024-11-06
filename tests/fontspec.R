@@ -8,14 +8,14 @@ options(tinytex.verbose=TRUE, latex.quiet=FALSE)
 fontpath <- system.file("fonts", "Montserrat", "static", package="grDevices")
 
 tex <- paste0("\\setmainfont{Montserrat-Medium.ttf}",
-              "[Path=", fontpath, "/]",
+              "[Path=", fontpath, "/]\n",
               "This is a test")
 
 if (latex:::canTypeset()) {
     if (.Platform$OS.type == "windows") {
         ## For testing on github Windows runners, avoid tmp dir
         ## for files that a TeX engine will run on
-        texFile <- "test.tex"
+        texFile <- "test-fontspec.tex"
     } else {
         texFile <- NULL
     }

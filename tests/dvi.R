@@ -59,15 +59,15 @@ if (latex:::canTypeset()) {
         ## No warnings!
         grid.newpage()
         grid.dvi(dvi, fontLib=TTX)
-    }
 
-    if (latex:::xetexAvailable()) {
-        ## Explicit render engine that does NOT match typeset() engine
-        tex <- author("This is a test: $x - \\mu$", engine="xetex")
-        dviFile <- typeset(tex, engine="xetex", texFile=texFile)
-        dvi <- readDVI(dviFile)
-        grid.newpage()
+        if (latex:::xetexAvailable()) {
+            ## Explicit render engine that does NOT match typeset() engine
+            tex <- author("This is a test: $x - \\mu$", engine="xetex")
+            dviFile <- typeset(tex, engine="xetex", texFile=texFile)
+            dvi <- readDVI(dviFile)
+            grid.newpage()
             tools::assertWarning(grid.dvi(dvi, engine="null", fontLib=TTX))
+        }
     }
 }
 

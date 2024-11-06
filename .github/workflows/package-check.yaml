@@ -21,6 +21,7 @@ jobs:
       - name: Set up common R library (try to match s-u/R-actions/pkg-check@v2)
         run: |
           echo R_LIB_DIR=$(cd .. && pwd)/Rlib >> $GITHUB_ENV
+          sudo chown $USER $R_LIB_DIR
         shell: bash
       - name: Checkout {dvi}
         uses: actions/checkout@v4

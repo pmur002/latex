@@ -18,11 +18,6 @@ jobs:
           tools: base
       - name: Install tinytex
         uses: s-u/R-actions/tinytex@v1
-      - name: Set up common R library (try to match s-u/R-actions/pkg-check@v2)
-        run: |
-          echo R_LIB_DIR=$(cd .. && pwd)/Rlib >> $GITHUB_ENV
-          sudo chown $USER $(cd .. && pwd)/Rlib
-        shell: bash
       - name: Checkout {dvi}
         uses: actions/checkout@v4
         with: 
@@ -30,8 +25,8 @@ jobs:
           path: dvi
       - name: Install {dvi} 
         run: |
-          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("hexView", lib=Sys.getenv("R_LIB_DIR"), repos="https://cloud.r-project.org", dependencies=TRUE)'
-          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("dvi", lib=Sys.getenv("R_LIB_DIR"), type="source", repos=NULL)'
+          Rscript -e 'install.packages("hexView", repos="https://cloud.r-project.org", dependencies=TRUE)'
+          Rscript -e 'install.packages("dvi", type="source", repos=NULL)'
         shell: bash
       - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'

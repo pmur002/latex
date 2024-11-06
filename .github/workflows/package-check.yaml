@@ -7,8 +7,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-13, macos-14, ubuntu-22.04, windows-2022 ]
-        r-version: [ release, devel ]
+        os: [ macos-14 ] # [ macos-13, macos-14, ubuntu-22.04, windows-2022 ]
+        r-version: [ release ] # [ release, devel ]
     steps:
       - uses: actions/checkout@v4
       - name: Install R
@@ -20,7 +20,10 @@ jobs:
         uses: s-u/R-actions/tinytex@v1
       - name: Set up common R library (try to match s-u/R-actions/pkg-check@v2)
         run: |
-          echo R_LIB_DIR=$(cd .. && pwd)/Rlib >> $GITHUB_ENV
+          if [ ${{ runner.os }} = Windows ] ; then
+            echo R_LIB_DIR=$(cd .. && pwd)/Rlib >> $GITHUB_ENV
+            echo R_PRE='R_LIBS=$R_LIB_DIR' >> $GITHUB_ENV
+          fi
         shell: bash
       - name: Checkout {dvi}
         uses: actions/checkout@v4
@@ -29,8 +32,8 @@ jobs:
           path: dvi
       - name: Install {dvi} 
         run: |
-          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("hexView", repos="https://cloud.r-project.org", dependencies=TRUE)'
-          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("dvi", type="source", repos=NULL)'
+          $R_PRE Rscript -e 'install.packages("hexView", repos="https://cloud.r-project.org", dependencies=TRUE)'
+          $R_PRE Rscript -e 'install.packages("dvi", type="source", repos=NULL)'
         shell: bash
       - name: Install ttx system deps on macOS
         if: runner.os == 'macOS'
@@ -51,8 +54,8 @@ jobs:
           path: ttx
       - name: Install {ttx}
         run: |
-          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("xml2", repos="https://cloud.r-project.org", dependencies=TRUE)'
-          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("ttx", type="source", repos=NULL)'
+          $R_PRE Rscript -e 'install.packages("xml2", repos="https://cloud.r-project.org", dependencies=TRUE)'
+          $R_PRE Rscript -e 'install.packages("ttx", type="source", repos=NULL)'
         shell: bash
       - uses: s-u/R-actions/pkg-check@v2
         with:

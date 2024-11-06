@@ -69,7 +69,7 @@ jobs:
           if [ ${{ runner.os }} = Windows ] ; then
             TDIR=`cygpath -m $GITHUB_WORKSPACE/..`
           else
-            TDIR=$GITHUB_WORKSPACE/..
+            TDIR=$(cd $GITHUB_WORKSPACE/.. && pwd)
           fi
           echo "TOP_DIR=$TDIR" >> $GITHUB_ENV
         shell: bash

@@ -47,8 +47,8 @@ jobs:
           path: ttx
       - name: Install {ttx}
         run: |
-          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("xml2", lib=Sys.getenv("R_LIB_DIR"), repos="https://cloud.r-project.org", dependencies=TRUE)'
-          R_LIBS=$R_LIB_DIR Rscript -e 'install.packages("ttx", lib=Sys.getenv("R_LIB_DIR"), type="source", repos=NULL)'
+          Rscript -e 'install.packages("xml2", repos="https://cloud.r-project.org", dependencies=TRUE)'
+          Rscript -e 'install.packages("ttx", type="source", repos=NULL)'
         shell: bash
       - uses: s-u/R-actions/pkg-check@v2
         with:
